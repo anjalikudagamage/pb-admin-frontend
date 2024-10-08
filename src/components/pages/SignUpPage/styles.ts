@@ -15,7 +15,7 @@ export const formTitle: SxProps = {
 };
 
 export const section: SxProps = {
-  marginBottom: "20px",
+  marginBottom: "50px",
 };
 
 export const sectionTitle: SxProps = {
