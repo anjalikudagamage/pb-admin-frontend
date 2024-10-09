@@ -18,6 +18,24 @@ export const imageBoxStyle: SxProps<Theme> = {
   color: "#fff",
 };
 
+export const buttonStyle: SxProps<Theme> = {
+  backgroundColor: "#FF6B6B",
+  color: "#fff",
+  maxWidth: "180px",
+  padding: "8px 32px",
+  backgroundImage: "linear-gradient(90deg, #FF6B6B, #FF6B6B)", 
+  textAlign: "center",
+  textTransform: "uppercase",
+  transition: "0.5s",
+  backgroundSize: "200% auto",
+  borderRadius: "10px",
+  "&:hover": {
+    backgroundPosition: "right center",
+    color: "#fff",
+    textDecoration: "none",
+  },
+};
+
 export const formBoxStyle: SxProps<Theme> = {
   flex: 1,
   display: "flex",
@@ -59,15 +77,20 @@ export const inputFieldStyle: SxProps<Theme> = {
 };
 
 export const signUpButtonStyle: SxProps<Theme> = {
-  backgroundColor: "#FF6B6B",
   width: '100%',
-  color: "#fff",
-  fontWeight: "600",
-  padding: "12px",
-  marginTop: 2,
-  borderRadius: "25px",
+  backgroundImage: "linear-gradient(90deg, #FF6B6B, #FF6B6B)", 
+  color: "white",
+  padding: "15px 45px",
+  textAlign: "center",
+  textTransform: "uppercase",
+  transition: "0.5s",
+  backgroundSize: "200% auto",
+  boxShadow: "0 0 8px #eee",
+  borderRadius: "10px",
   "&:hover": {
-    backgroundColor: "#FF4757",
+    backgroundPosition: "right center",
+    color: "#fff",
+    textDecoration: "none",
   },
 };
 
