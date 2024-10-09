@@ -1,28 +1,34 @@
 import React from "react";
 import { Box, Container, Typography } from "@mui/material";
+import Navbar from "../../organisms/adminNavbar";
 import DashboardStats from "../../higherOrderComponents/DashboardStats";
 import UserTable from "../../higherOrderComponents/UserTable";
 
-const adminDashboard: React.FC = () => {
+const AdminDashboard: React.FC = () => {
   return (
-    <Container>
-      {/* Page Header */}
-      <Typography variant="h4" sx={{ fontWeight: "bold", my: 4 }}>
-        Admin Dashboard
-      </Typography>
+    <Box>
+      {/* Navbar */}
+      <Navbar />
 
-      {/* Dashboard Stats Section */}
-      <Box sx={{ mb: 5 }}>
-        <DashboardStats />
-      </Box>
+      <Container>
+        {/* Page Header */}
+        <Typography variant="h4" sx={{ fontWeight: "bold", my: 4 }}>
+          Admin Dashboard
+        </Typography>
 
-      {/* User Table Section */}
-      <Typography variant="h5" sx={{ fontWeight: "bold", mb: 3 }}>
-        Users
-      </Typography>
-      <UserTable />
-    </Container>
+        {/* Dashboard Stats Section */}
+        <Box sx={{ mb: 5 }}>
+          <DashboardStats />
+        </Box>
+
+        {/* User Table Section */}
+        <Typography variant="h5" sx={{ fontWeight: "bold", mb: 3 }}>
+          Users
+        </Typography>
+        <UserTable />
+      </Container>
+    </Box>
   );
 };
 
-export default adminDashboard;
+export default AdminDashboard;
