@@ -14,6 +14,7 @@ import {
   bodyStyle,
   linkStyle,
 } from "./styles";
+import Navbar from "../../organisms/Navbar";
 
 const validationSchema = Yup.object({
   email: Yup.string()
@@ -28,6 +29,8 @@ const ForgotPasswordPage: React.FC = () => {
   };
 
   return (
+    <>
+    <Navbar/>
     <Box sx={containerStyle}>
       <Box
         sx={{
@@ -80,6 +83,7 @@ const ForgotPasswordPage: React.FC = () => {
         </Formik>
       </Box>
     </Box>
+    </>
   );
 };
 
