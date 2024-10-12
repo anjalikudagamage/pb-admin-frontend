@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import SignUpPage from "../components/pages/SignUpPage/index.tsx";
 import ForgotPasswordPage from "../components/pages/ForgetPasswordPage/index.tsx";
-import LoginPage from "../components/pages/SignUpPage/index.tsx";
+import LoginPage from "../components/pages/LoginPage";
 import AdminLogin from "../components/pages/AdminLogin/index.tsx";
 import { ROUTES } from "../constants/routeConstants.ts";
 import BookingTable from "../components/pages/RequestManagement/index.tsx";

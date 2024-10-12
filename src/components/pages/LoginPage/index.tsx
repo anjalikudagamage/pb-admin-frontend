@@ -15,6 +15,7 @@ import {
   bodyStyle,
   linkStyle,
 } from "./styles";
+import { useNavigate } from "react-router-dom";
 
 const validationSchema = Yup.object({
   email: Yup.string()
@@ -32,6 +33,16 @@ const LoginPage: React.FC = () => {
     console.log("Submitted password:", values.password);
   };
 
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate("/signup");
+  };
+
+  const handleForgotPasswordClick = () => {
+    navigate("/password");
+  };
+
   return (
     <Box sx={containerStyle}>
       <Box
@@ -45,7 +56,7 @@ const LoginPage: React.FC = () => {
         </Typography>
         <Typography variant="body1" sx={bodyStyle}>
           New here?{" "}
-          <Link href="/signup" sx={linkStyle}>
+          <Link href="/signup" sx={linkStyle} onClick={handleClick}>
             Create an account
           </Link>
         </Typography>
@@ -92,8 +103,8 @@ const LoginPage: React.FC = () => {
                 error={touched.password && !!errors.password}
               />
               <Link
-                href="/forgot-password"
                 sx={linkStyle}
+                onClick={handleForgotPasswordClick}
                 style={{ marginBottom: "16px", display: "block" }}
               >
                 Forgot Password?
