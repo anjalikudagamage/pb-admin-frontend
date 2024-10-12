@@ -6,6 +6,8 @@ export const formContainer: SxProps = {
   borderRadius: "10px",
   maxWidth: "700px",
   width: "100%",
+  marginTop: "10px",
+  marginBottom: "10px",
 };
 
 export const formTitle: SxProps = {

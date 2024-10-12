@@ -25,7 +25,7 @@ import {
   buttonSx,
 } from "./styles";
 
-const pages = ["CREATE NEW ACCOUNT", "MY ACCOUNTS"];
+const pages = ["LOGIN AS ADMIN"];
 
 function Navbar() {
   const navigate = useNavigate();
