@@ -7,15 +7,16 @@ import {
   CardActions,
   Box,
 } from "@mui/material";
-import CameraAltIcon from "@mui/icons-material/CameraAlt";
-import PeopleIcon from "@mui/icons-material/People";
+import ScheduleIcon from "@mui/icons-material/Schedule";
+import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { packageTableStyles, BookButton } from "./styles";
 import { useNavigate } from "react-router-dom";
 
 const PackageTable = () => {
   const packages = [
     {
-      name: "Basic Photography Package",
+      name: "Wedding Package",
       price: "LKR 14,699",
       features: ["2 Hours Session", "20 Edited Photos", "1 Location"],
       guests: 2,
@@ -23,7 +24,7 @@ const PackageTable = () => {
       breakfast: "Non-refundable, Pay in advance",
     },
     {
-      name: "Premium Photography Package",
+      name: "Portraits Standards Package",
       price: "LKR 23,500",
       features: ["4 Hours Session", "50 Edited Photos", "2 Locations"],
       guests: 4,
@@ -31,7 +32,7 @@ const PackageTable = () => {
       breakfast: "Non-refundable, 10% Genius discount applied",
     },
     {
-      name: "Basic Photography Package",
+      name: "Event Package",
       price: "LKR 14,699",
       features: ["2 Hours Session", "20 Edited Photos", "1 Location"],
       guests: 2,
@@ -39,7 +40,7 @@ const PackageTable = () => {
       breakfast: "Non-refundable, Pay in advance",
     },
     {
-      name: "Premium Photography Package",
+      name: "Commercial Package",
       price: "LKR 23,500",
       features: ["4 Hours Session", "50 Edited Photos", "2 Locations"],
       guests: 4,
@@ -59,40 +60,51 @@ const PackageTable = () => {
       <Grid container spacing={2}>
         {packages.map((pkg, index) => (
           <Grid item xs={12} md={6} key={index}>
-            <Card>
+            <Card sx={packageTableStyles.card}>
               <CardContent>
-                <Typography variant="h6" gutterBottom>
+                <Typography variant="h6" gutterBottom sx={packageTableStyles.packageName}>
                   {pkg.name}
                 </Typography>
-                <Grid container spacing={1}>
-                  <Grid item xs={6}>
-                    <Typography variant="body2" color="textSecondary">
+                <Grid container spacing={2}>
+                  <Grid item xs={6} sx={{ marginBottom: 2 }}>
+                    <Typography variant="body2" color="textSecondary" sx={packageTableStyles.featureText}>
+                      <PhotoCameraIcon fontSize="small" sx={{ marginRight: 1 }} />
                       Number of photos:
                     </Typography>
-                    <Typography variant="body1">
-                      <PeopleIcon fontSize="small" /> {pkg.features[1]}
+                    <Typography variant="body1" sx={{ marginLeft: 4 }}>
+                      {pkg.features[1]}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={6} sx={{ marginBottom: 2 }}>
+                    <Typography variant="body2" color="textSecondary" sx={packageTableStyles.featureText}>
+                      <ScheduleIcon fontSize="small" sx={{ marginRight: 1 }} />
+                      Number of hours:
+                    </Typography>
+                    <Typography variant="body1" sx={{ marginLeft: 4 }}>
+                      {pkg.features[0]}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography variant="body2" color="textSecondary" sx={packageTableStyles.featureText}>
+                      <LocationOnIcon fontSize="small" sx={{ marginRight: 1 }} />
+                      Number of locations:
+                    </Typography>
+                    <Typography variant="body1" sx={{ marginLeft: 4 }}>
+                      {pkg.features[2]}
                     </Typography>
                   </Grid>
                   <Grid item xs={6}>
                     <Typography variant="body2" color="textSecondary">
                       Package price:
                     </Typography>
-                    <Typography variant="h6">{pkg.price}</Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography variant="body2" color="textSecondary">
-                      Session details:
+                    <Typography variant="h6" sx={packageTableStyles.packagePrice}>
+                      {pkg.price}
                     </Typography>
-                    <Typography variant="body1">
-                      <CameraAltIcon fontSize="small" />{" "}
-                      {pkg.features.join(", ")}
-                    </Typography>
-                    <Typography variant="body2">{pkg.breakfast}</Typography>
                   </Grid>
                 </Grid>
               </CardContent>
               <CardActions>
-                <Button variant="contained" sx= {BookButton} onClick={handleClick}>
+                <Button variant="contained" sx={BookButton} onClick={handleClick}>
                   Book Now
                 </Button>
               </CardActions>
