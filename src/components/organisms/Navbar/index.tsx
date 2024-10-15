@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -16,14 +17,19 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import LogoutIcon from "@mui/icons-material/Logout";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import { appBarSx, adbIconSx, typographySx, menuSx, buttonSx } from "./styles";
+import {
+  appBarSx,
+  adbIconSx,
+  typographySx,
+  menuSx,
+  buttonSx,
+} from "./styles";
 
-const pages = ["CREATE NEW ACCOUNT", "MY ACCOUNTS"];
+const pages = ["LOGIN AS ADMIN"];
 
 function Navbar() {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
-    null
-  );
+  const navigate = useNavigate();
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -31,6 +37,14 @@ function Navbar() {
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
+  };
+
+  const handleCreateAccountClick = () => {
+    navigate("/signup"); 
+  };
+
+  const handleMyAccountClick = () => {
+    navigate("/request"); 
   };
 
   return (
@@ -76,7 +90,17 @@ function Navbar() {
               sx={menuSx}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                <MenuItem
+                  key={page}
+                  onClick={() => {
+                    handleCloseNavMenu();
+                    if (page === "CREATE NEW ACCOUNT") {
+                      handleCreateAccountClick();
+                    } else if (page === "MY ACCOUNTS") {
+                      handleMyAccountClick();
+                    }
+                  }}
+                >
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
@@ -97,7 +121,17 @@ function Navbar() {
             }}
           >
             {pages.map((page) => (
-              <Button key={page} onClick={handleCloseNavMenu} sx={buttonSx}>
+              <Button
+                key={page}
+                onClick={() => {
+                  if (page === "CREATE NEW ACCOUNT") {
+                    handleCreateAccountClick();
+                  } else if (page === "MY ACCOUNTS") {
+                    handleMyAccountClick();
+                  }
+                }}
+                sx={buttonSx}
+              >
                 {page}
               </Button>
             ))}

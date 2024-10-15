@@ -18,7 +18,7 @@ import {
   statusBox,
   viewDetailsButton,
 } from "./styles";
-import Navbar from "../../organisms/Navbar";
+import Navbar from "../../organisms/adminNavbar";
 import PermitDetailsPopup from "../../layouts/RequestPopup";
 
 interface BookingData {
