@@ -7,3 +7,4 @@ export const ROUTES = {
     ADMIN: "/admin",
     PHOTOGRAPHER: "/photographer",
 };
+ 

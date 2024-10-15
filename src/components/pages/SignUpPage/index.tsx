@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import bgImg from "../../../assets/images/signup/image2.jpg";
 import {
   Box,
   Button,
@@ -11,11 +10,10 @@ import {
   FormGroup,
   FormHelperText,
   Grid,
-  MenuItem,
-  Select,
   TextField,
   Typography,
 } from "@mui/material";
+import bgImg from "../../../assets/images/signup/image2.jpg";
 import {
   formContainer,
   formTitle,
@@ -23,17 +21,31 @@ import {
   sectionTitle,
   textField,
   buttonContainer,
-  submitButton,
   clearButton,
+  signUpButtonStyle,
 } from "./styles";
 
 const validationSchema = Yup.object().shape({
-  studioName: Yup.string().required("Studio Name is required"),
-  businessDescription: Yup.string().required("Business Description is required"),
-  photographerSkills: Yup.string().required("Photographer Skills Description is required"),
+  businessName: Yup.string().required("Business Name is required"),
+  businessDescription: Yup.string().required(
+    "Business Description is required"
+  ),
+  photographerSkills: Yup.string().required(
+    "Photographer Skills Description is required"
+  ),
+  email: Yup.string()
+    .email("Invalid email format")
+    .required("Email is required"),
   packages: Yup.array().min(1, "At least one package must be selected"),
+  password: Yup.string()
+    .min(8, "Password must be at least 8 characters")
+    .required("Password is required"),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref("password")], "Passwords must match")
+    .required("Confirm Password is required"),
 });
 
+// Available Packages Options
 const packagesOptions = [
   "Wedding Package",
   "Portraits Standard Package",
@@ -43,11 +55,14 @@ const packagesOptions = [
 
 const PhotographerSignupForm: React.FC = () => {
   const initialValues = {
-    studioName: "",
+    businessName: "",
     businessDescription: "",
     photographerSkills: "",
+    email: "",
     packages: [],
     packageDetails: {},
+    password: "",
+    confirmPassword: "",
   };
 
   const [selectedPackages, setSelectedPackages] = useState<string[]>([]);
@@ -59,10 +74,9 @@ const PhotographerSignupForm: React.FC = () => {
         backgroundSize: "cover",
         backgroundPosition: "center",
         justifyContent: "flex-end",
-        height: "auto",
         display: "flex",
         alignItems: "center",
-        marginTop: "5px"
+        marginTop: "5px",
       }}
     >
       <Formik
@@ -73,42 +87,31 @@ const PhotographerSignupForm: React.FC = () => {
           resetForm();
         }}
       >
-        {({ handleSubmit, handleReset, isSubmitting, errors, touched, setFieldValue }) => (
+        {({ handleSubmit, handleReset, errors, touched, setFieldValue }) => (
           <Form onSubmit={handleSubmit}>
             <Box sx={formContainer}>
               <Typography variant="h4" sx={formTitle}>
                 Photographer Signup Form
               </Typography>
 
+              {/* Business/Service Details Section */}
               <Box sx={section}>
                 <Typography variant="h6" sx={sectionTitle}>
-                  Studio Details
+                  Business/Service Details
                 </Typography>
                 <Grid container spacing={2}>
                   <Grid item xs={12}>
                     <Field
                       as={TextField}
-                      name="studioName"
-                      label="Studio Name"
+                      name="businessName"
+                      label="Business Name"
                       fullWidth
                       variant="outlined"
                       sx={textField}
-                      helperText={<ErrorMessage name="studioName" />}
-                      error={Boolean(errors.studioName && touched.studioName)}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Field
-                      as={TextField}
-                      name="businessDescription"
-                      label="Business Description"
-                      fullWidth
-                      multiline
-                      rows={4}
-                      variant="outlined"
-                      sx={textField}
-                      helperText={<ErrorMessage name="businessDescription" />}
-                      error={Boolean(errors.businessDescription && touched.businessDescription)}
+                      helperText={<ErrorMessage name="businessName" />}
+                      error={Boolean(
+                        errors.businessName && touched.businessName
+                      )}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -122,17 +125,36 @@ const PhotographerSignupForm: React.FC = () => {
                       variant="outlined"
                       sx={textField}
                       helperText={<ErrorMessage name="photographerSkills" />}
-                      error={Boolean(errors.photographerSkills && touched.photographerSkills)}
+                      error={Boolean(
+                        errors.photographerSkills && touched.photographerSkills
+                      )}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Field
+                      as={TextField}
+                      name="email"
+                      label="Email Address"
+                      type="email"
+                      fullWidth
+                      variant="outlined"
+                      sx={textField}
+                      helperText={<ErrorMessage name="email" />}
+                      error={Boolean(errors.email && touched.email)}
                     />
                   </Grid>
                 </Grid>
               </Box>
 
+              {/* Available Packages Section */}
               <Box sx={section}>
                 <Typography variant="h6" sx={sectionTitle}>
                   Available Packages
                 </Typography>
-                <FormControl component="fieldset" error={Boolean(errors.packages && touched.packages)}>
+                <FormControl
+                  component="fieldset"
+                  error={Boolean(errors.packages && touched.packages)}
+                >
                   <FormGroup row>
                     {packagesOptions.map((pkg) => (
                       <FormControlLabel
@@ -149,18 +171,31 @@ const PhotographerSignupForm: React.FC = () => {
                               setSelectedPackages(newSelection);
                               setFieldValue("packages", newSelection);
                             }}
+                            sx={{
+                              color: "white",
+                              "&.Mui-checked": {
+                                color: "white",
+                              },
+                            }}
                           />
                         }
-                        label={pkg}
+                        label={
+                          <Typography sx={{ color: "white" }}>{pkg}</Typography>
+                        }
                       />
                     ))}
                   </FormGroup>
-                  <FormHelperText><ErrorMessage name="packages" /></FormHelperText>
+                  <FormHelperText>
+                    <ErrorMessage name="packages" />
+                  </FormHelperText>
                 </FormControl>
 
+                {/* Package Details */}
                 {selectedPackages.map((pkg) => (
                   <Box key={pkg} sx={{ mt: 2 }}>
-                    <Typography variant="h6">{pkg} Details</Typography>
+                    <Typography variant="h6" sx={{ color: "white" }}>
+                      {pkg} Details
+                    </Typography>
                     <Grid container spacing={2}>
                       <Grid item xs={12} sm={6}>
                         <Field
@@ -192,49 +227,51 @@ const PhotographerSignupForm: React.FC = () => {
                           sx={textField}
                         />
                       </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <Field
-                          as={Select}
-                          name={`packageDetails.${pkg}.refundPolicy`}
-                          label="Refund Policy"
-                          fullWidth
-                          sx={textField}
-                          displayEmpty
-                          inputProps={{ "aria-label": "Refund Policy" }}
-                        >
-                          <MenuItem value=""><em>Select Refund Policy</em></MenuItem>
-                          <MenuItem value="Refundable">Refundable</MenuItem>
-                          <MenuItem value="Non-Refundable">Non-Refundable</MenuItem>
-                        </Field>
-                      </Grid>
-                      <Grid item xs={12}>
-                        <Field
-                          as={Select}
-                          name={`packageDetails.${pkg}.payment`}
-                          label="Payment Option"
-                          fullWidth
-                          sx={textField}
-                          displayEmpty
-                          inputProps={{ "aria-label": "Payment Option" }}
-                        >
-                          <MenuItem value=""><em>Select Payment Option</em></MenuItem>
-                          <MenuItem value="Full Payment">Full Payment</MenuItem>
-                          <MenuItem value="Pay Advance">Pay Advance</MenuItem>
-                          <MenuItem value="No Payment">No Payment</MenuItem>
-                        </Field>
-                      </Grid>
                     </Grid>
                   </Box>
                 ))}
               </Box>
 
+              {/* Login Details Section */}
+              <Box sx={section}>
+                <Typography variant="h6" sx={sectionTitle}>
+                  Login Details
+                </Typography>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <Field
+                      as={TextField}
+                      name="password"
+                      label="Password"
+                      type="password"
+                      fullWidth
+                      variant="outlined"
+                      sx={textField}
+                      helperText={<ErrorMessage name="password" />}
+                      error={Boolean(errors.password && touched.password)}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Field
+                      as={TextField}
+                      name="confirmPassword"
+                      label="Confirm Password"
+                      type="password"
+                      fullWidth
+                      variant="outlined"
+                      sx={textField}
+                      helperText={<ErrorMessage name="confirmPassword" />}
+                      error={Boolean(
+                        errors.confirmPassword && touched.confirmPassword
+                      )}
+                    />
+                  </Grid>
+                </Grid>
+              </Box>
+
+              {/* Button Section */}
               <Box sx={buttonContainer}>
-                <Button
-                  type="submit"
-                  variant="contained"
-                  sx={submitButton}
-                  disabled={isSubmitting}
-                >
+                <Button type="submit" sx={signUpButtonStyle}>
                   Signup
                 </Button>
                 <Button
