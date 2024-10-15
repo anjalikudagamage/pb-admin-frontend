@@ -5,6 +5,21 @@ export const packageTableStyles: Record<string, SxProps<Theme>> = {
     flexGrow: 1,
     padding: 10,
   },
+  card: {
+    backgroundColor: "#e0f7fa",
+    transition: "0.3s",
+    "&:hover": { boxShadow: 3 },
+  },
+  packageName: {
+    marginBottom: 1,
+  },
+  featureText: {
+    display: "flex",
+    alignItems: "center",
+  },
+  packagePrice: {
+    color: "primary",
+  },
 };
 
 export const BookButton: SxProps<Theme> = {
@@ -12,7 +27,7 @@ export const BookButton: SxProps<Theme> = {
   color: "#fff",
   maxWidth: "180px",
   padding: "8px 32px",
-  backgroundImage: "linear-gradient(90deg, #FF6B6B, #FF6B6B)", 
+  backgroundImage: "linear-gradient(90deg, #FF6B6B, #FF6B6B)",
   textAlign: "center",
   textTransform: "uppercase",
   transition: "0.5s",
