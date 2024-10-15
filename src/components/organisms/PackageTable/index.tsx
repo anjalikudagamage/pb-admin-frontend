@@ -65,7 +65,7 @@ const PackageTable = () => {
                 <Typography variant="h6" gutterBottom sx={packageTableStyles.packageName}>
                   {pkg.name}
                 </Typography>
-                <Grid container spacing={1}>
+                <Grid container spacing={2}>
                   <Grid item xs={6} sx={{ marginBottom: 2 }}>
                     <Typography variant="body2" color="textSecondary" sx={packageTableStyles.featureText}>
                       <PhotoCameraIcon fontSize="small" sx={{ marginRight: 1 }} />

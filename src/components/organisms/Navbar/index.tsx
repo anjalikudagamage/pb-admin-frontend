@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -17,19 +17,18 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import LogoutIcon from "@mui/icons-material/Logout";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import {
-  appBarSx,
-  adbIconSx,
-  typographySx,
-  menuSx,
-  buttonSx,
-} from "./styles";
-
-const pages = ["LOGIN AS ADMIN"];
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import { appBarSx, adbIconSx, typographySx, menuSx, buttonSx } from "./styles";
 
 function Navbar() {
   const navigate = useNavigate();
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+  const [openLogoutDialog, setOpenLogoutDialog] = useState(false);
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -39,14 +38,31 @@ function Navbar() {
     setAnchorElNav(null);
   };
 
-  const handleCreateAccountClick = () => {
+  const handleLogoutClick = () => {
+    setOpenLogoutDialog(true);
+  };
+
+  const handleCloseLogoutDialog = () => {
+    setOpenLogoutDialog(false);
+  };
+
+  const handleConfirmLogout = () => {
+    navigate("/login"); 
+  };
+
+  const handleDeleteClick = () => {
+    setOpenDeleteDialog(true);
+  };
+
+  const handleCloseDeleteDialog = () => {
+    setOpenDeleteDialog(false);
+  };
+
+  const handleConfirmDelete = () => {
     navigate("/signup"); 
   };
 
-  const handleMyAccountClick = () => {
-    navigate("/request"); 
-  };
-
+  
   return (
     <AppBar position="fixed" sx={appBarSx}>
       <Container maxWidth="xl">
@@ -89,21 +105,6 @@ function Navbar() {
               onClose={handleCloseNavMenu}
               sx={menuSx}
             >
-              {pages.map((page) => (
-                <MenuItem
-                  key={page}
-                  onClick={() => {
-                    handleCloseNavMenu();
-                    if (page === "CREATE NEW ACCOUNT") {
-                      handleCreateAccountClick();
-                    } else if (page === "MY ACCOUNTS") {
-                      handleMyAccountClick();
-                    }
-                  }}
-                >
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
               <MenuItem onClick={handleCloseNavMenu}>
                 <EditIcon sx={{ mr: 1 }} /> Edit
               </MenuItem>
@@ -120,28 +121,20 @@ function Navbar() {
               justifyContent: "flex-end",
             }}
           >
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={() => {
-                  if (page === "CREATE NEW ACCOUNT") {
-                    handleCreateAccountClick();
-                  } else if (page === "MY ACCOUNTS") {
-                    handleMyAccountClick();
-                  }
-                }}
-                sx={buttonSx}
-              >
-                {page}
-              </Button>
-            ))}
+            <Button sx={buttonSx}>ADMIN DASHBOARD</Button>
+
             <IconButton size="large" color="inherit" sx={{ ml: 2 }}>
               <EditIcon />
             </IconButton>
-            <IconButton size="large" color="inherit" sx={{ ml: 2 }}>
+            <IconButton size="large" color="inherit" sx={{ ml: 2 }} onClick={handleDeleteClick}>
               <DeleteIcon />
             </IconButton>
-            <IconButton size="large" color="inherit" sx={{ ml: 2 }}>
+            <IconButton
+              size="large"
+              color="inherit"
+              sx={{ ml: 2 }}
+              onClick={handleLogoutClick}
+            >
               <LogoutIcon />
             </IconButton>
             <IconButton size="large" color="inherit" sx={{ ml: 2 }}>
@@ -156,6 +149,42 @@ function Navbar() {
           </Box>
         </Toolbar>
       </Container>
+
+      {/* Logout Confirmation Dialog */}
+      <Dialog open={openLogoutDialog} onClose={handleCloseLogoutDialog}>
+        <DialogTitle>Logout Confirmation</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to log out?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseLogoutDialog} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleConfirmLogout} color="primary">
+            Logout
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog open={openDeleteDialog} onClose={handleCloseDeleteDialog}>
+        <DialogTitle>Delete Confirmation</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to delete the account?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDeleteDialog} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleConfirmDelete} color="primary">
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </AppBar>
   );
 }
