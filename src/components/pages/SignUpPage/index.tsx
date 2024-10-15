@@ -1,15 +1,17 @@
 import React, { useState } from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import {
   Box,
   Button,
   Checkbox,
+  CircularProgress,
   FormControl,
   FormControlLabel,
   FormGroup,
   FormHelperText,
   Grid,
+  InputAdornment,
   TextField,
   Typography,
 } from "@mui/material";
@@ -24,14 +26,25 @@ import {
   clearButton,
   signUpButtonStyle,
 } from "./styles";
+import SignupPopup from "../../layouts/SignupPopup";
+
+interface FormValues {
+  businessName: string;
+  businessDescription: string;
+  email: string;
+  packages: string[];
+  packageDetails: Record<
+    string,
+    { photos?: number; hours?: number; locations?: number; price?: number }
+  >;
+  password: string;
+  confirmPassword: string;
+}
 
 const validationSchema = Yup.object().shape({
   businessName: Yup.string().required("Business Name is required"),
   businessDescription: Yup.string().required(
     "Business Description is required"
-  ),
-  photographerSkills: Yup.string().required(
-    "Photographer Skills Description is required"
   ),
   email: Yup.string()
     .email("Invalid email format")
@@ -45,7 +58,6 @@ const validationSchema = Yup.object().shape({
     .required("Confirm Password is required"),
 });
 
-// Available Packages Options
 const packagesOptions = [
   "Wedding Package",
   "Portraits Standard Package",
@@ -54,18 +66,19 @@ const packagesOptions = [
 ];
 
 const PhotographerSignupForm: React.FC = () => {
-  const initialValues = {
+  const [openPopup, setOpenPopup] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [selectedPackages, setSelectedPackages] = useState<string[]>([]);
+
+  const initialValues: FormValues = {
     businessName: "",
     businessDescription: "",
-    photographerSkills: "",
     email: "",
     packages: [],
     packageDetails: {},
     password: "",
     confirmPassword: "",
   };
-
-  const [selectedPackages, setSelectedPackages] = useState<string[]>([]);
 
   return (
     <Box
@@ -82,9 +95,18 @@ const PhotographerSignupForm: React.FC = () => {
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={(values, { resetForm }) => {
-          console.log(values);
-          resetForm();
+        onSubmit={async (
+          values: FormValues,
+          { resetForm }: FormikHelpers<FormValues>
+        ) => {
+          setLoading(true);
+          try {
+            console.log(values);
+            resetForm();
+            setOpenPopup(true);
+          } finally {
+            setLoading(false);
+          }
         }}
       >
         {({ handleSubmit, handleReset, errors, touched, setFieldValue }) => (
@@ -117,16 +139,17 @@ const PhotographerSignupForm: React.FC = () => {
                   <Grid item xs={12}>
                     <Field
                       as={TextField}
-                      name="photographerSkills"
-                      label="Photographer Skills"
+                      name="businessDescription"
+                      label="Business Description"
                       fullWidth
                       multiline
                       rows={4}
                       variant="outlined"
                       sx={textField}
-                      helperText={<ErrorMessage name="photographerSkills" />}
+                      helperText={<ErrorMessage name="businessDescription" />}
                       error={Boolean(
-                        errors.photographerSkills && touched.photographerSkills
+                        errors.businessDescription &&
+                          touched.businessDescription
                       )}
                     />
                   </Grid>
@@ -173,9 +196,7 @@ const PhotographerSignupForm: React.FC = () => {
                             }}
                             sx={{
                               color: "white",
-                              "&.Mui-checked": {
-                                color: "white",
-                              },
+                              "&.Mui-checked": { color: "white" },
                             }}
                           />
                         }
@@ -227,6 +248,26 @@ const PhotographerSignupForm: React.FC = () => {
                           sx={textField}
                         />
                       </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <Field
+                          as={TextField}
+                          name={`packageDetails.${pkg}.price`}
+                          label="Package Price"
+                          type="number"
+                          fullWidth
+                          sx={textField}
+                          InputProps={{
+                            startAdornment: (
+                              <InputAdornment
+                                position="start"
+                                sx={{ color: "white" }}
+                              >
+                                Rs.
+                              </InputAdornment>
+                            ),
+                          }}
+                        />
+                      </Grid>
                     </Grid>
                   </Box>
                 ))}
@@ -271,8 +312,12 @@ const PhotographerSignupForm: React.FC = () => {
 
               {/* Button Section */}
               <Box sx={buttonContainer}>
-                <Button type="submit" sx={signUpButtonStyle}>
-                  Signup
+                <Button type="submit" sx={signUpButtonStyle} disabled={loading}>
+                  {loading ? (
+                    <CircularProgress size={24} sx={{ color: "white" }} />
+                  ) : (
+                    "Signup"
+                  )}
                 </Button>
                 <Button
                   type="button"
@@ -287,6 +332,8 @@ const PhotographerSignupForm: React.FC = () => {
           </Form>
         )}
       </Formik>
+
+      <SignupPopup open={openPopup} onClose={() => setOpenPopup(false)} />
     </Box>
   );
 };
