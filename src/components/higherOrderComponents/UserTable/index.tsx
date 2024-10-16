@@ -12,35 +12,35 @@ import {
   Box,
   Paper,
 } from "@mui/material";
-import { tableStyles, statusStyles } from "./styles";
+import { tableStyles } from "./styles";
 
 interface User {
-  name: string;
+  fullName: string;
+  contactNumber: string;
   email: string;
-  title: string;
-  department: string;
-  status: string;
-  role: string;
+  package: string;
+  date: string;
+  time: string;
   avatar: string;
 }
 
 const users: User[] = [
   {
-    name: "John Doe",
+    fullName: "John Doe",
+    contactNumber: "+1-234-567-8901",
     email: "john@example.com",
-    title: "Software Engineer",
-    department: "Web dev",
-    status: "Active",
-    role: "Owner",
+    package: "Premium",
+    date: "2024-10-01",
+    time: "10:00 AM",
     avatar: "/path/to/avatar1.jpg",
   },
   {
-    name: "Oscar Rhys",
+    fullName: "Oscar Rhys",
+    contactNumber: "+1-234-567-8902",
     email: "oscar@example.com",
-    title: "Software Engineer",
-    department: "Web dev",
-    status: "Active",
-    role: "Owner",
+    package: "Standard",
+    date: "2024-10-02",
+    time: "11:00 AM",
     avatar: "/path/to/avatar2.jpg",
   },
   // Add more users as needed
@@ -52,10 +52,12 @@ const UserTable: React.FC = () => {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell>Title</TableCell>
-            <TableCell>Status</TableCell>
-            <TableCell>Role</TableCell>
+            <TableCell>Full Name</TableCell>
+            <TableCell>Contact Number</TableCell>
+            <TableCell>Email</TableCell>
+            <TableCell>Package</TableCell>
+            <TableCell>Date</TableCell>
+            <TableCell>Time</TableCell>
             <TableCell align="right">Action</TableCell>
           </TableRow>
         </TableHead>
@@ -67,7 +69,7 @@ const UserTable: React.FC = () => {
                   <Avatar src={user.avatar} sx={{ mr: 2 }} />
                   <Box>
                     <Typography variant="subtitle1" fontWeight="bold">
-                      {user.name}
+                      {user.fullName}
                     </Typography>
                     <Typography variant="body2" color="textSecondary">
                       {user.email}
@@ -75,18 +77,11 @@ const UserTable: React.FC = () => {
                   </Box>
                 </Box>
               </TableCell>
-              <TableCell>
-                <Typography variant="subtitle1" fontWeight="bold">
-                  {user.title}
-                </Typography>
-                <Typography variant="body2" color="textSecondary">
-                  {user.department}
-                </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography sx={statusStyles}>{user.status}</Typography>
-              </TableCell>
-              <TableCell>{user.role}</TableCell>
+              <TableCell>{user.contactNumber}</TableCell>
+              <TableCell>{user.email}</TableCell>
+              <TableCell>{user.package}</TableCell>
+              <TableCell>{user.date}</TableCell>
+              <TableCell>{user.time}</TableCell>
               <TableCell align="right">
                 <Button variant="text" color="primary">
                   Edit
