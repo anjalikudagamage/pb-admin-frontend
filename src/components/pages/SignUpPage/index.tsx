@@ -75,7 +75,7 @@ const SignUpPage: React.FC = () => {
 
   // Redux-related states
   const dispatch: AppDispatch = useDispatch();
-  const { isLoading } = useSelector((state: RootState) => state.auth);
+  const { isLoading } = useSelector((state: RootState) => state.photographer);
 
   const initialValues: FormValues = {
     businessName: "",

@@ -3,7 +3,7 @@ import photographerReducer from "./slice/photographerSlice";
 
 const store = configureStore({
   reducer: {
-    auth: photographerReducer,
+    photographer: photographerReducer,
   },
 });
 

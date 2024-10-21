@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { photographerSignup } from "../actions/photographerActions";
+import { photographerSignup, photographerLogin } from "../actions/photographerActions";
 
 interface IPhotographerState {
   isLoading: boolean;
-  isPhotographerenticated: boolean;
+  isPhotographerAuthenticated: boolean;
   error: string | null;
   user: IPhotographerUser | null;
 }
@@ -16,32 +16,48 @@ interface IPhotographerUser {
 
 const initialState: IPhotographerState = {
   isLoading: false,
-  isPhotographerenticated: false,
+  isPhotographerAuthenticated: false,
   error: null,
   user: null,
 };
 
 const photographerSlice = createSlice({
-  name: "auth",
+  name: "photographer",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(photographerSignup.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(photographerSignup.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isPhotographerenticated = true;
-        state.user = action.payload.photographerDetails;
-        state.error = null;
-      })
-      .addCase(photographerSignup.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isPhotographerenticated = false;
-        state.error = action.payload as string;
-      });
+    .addCase(photographerSignup.pending, (state) => {
+      state.isLoading = true;
+      state.error = null;
+    })
+    .addCase(photographerSignup.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isPhotographerAuthenticated = true;
+      state.user = action.payload.photographerDetails;
+      state.error = null;
+    })
+    .addCase(photographerSignup.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isPhotographerAuthenticated = false;
+      state.error = action.payload as string;
+    })
+    // Login cases
+    .addCase(photographerLogin.pending, (state) => {
+      state.isLoading = true;
+      state.error = null;
+    })
+    .addCase(photographerLogin.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isPhotographerAuthenticated = true;
+      state.user = action.payload.photographerDetails; 
+      state.error = null;
+    })
+    .addCase(photographerLogin.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isPhotographerAuthenticated = false;
+      state.error = action.payload as string;
+    });
   },
 });
 

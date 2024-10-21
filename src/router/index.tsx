@@ -12,15 +12,7 @@ import AdminLogin from "../components/pages/AdminLogin/index.tsx";
 import { ROUTES } from "../constants/routeConstants.ts";
 import BookingTable from "../components/pages/RequestManagement/index.tsx";
 import PhotographerDetailsPage from "../components/pages/PhotographerPage/index.tsx";
-import AdminDashboard from "../components/pages/adminDashboard";
-import { useSelector } from "react-redux"; // Assuming you're using Redux
-
-// PrivateRoute component to protect routes
-const PrivateRoute: React.FC<{ children: JSX.Element }> = ({ children }) => {
-  const isAuthenticated = useSelector((state: any) => state.auth.isAuthenticated); // Check auth state
-
-  return isAuthenticated ? children : <Navigate to={ROUTES.LOGIN} />;
-};
+import AdminDashboard from "../components/pages/adminDashboard"
 
 const AppRouter: React.FC = () => {
   return (
@@ -31,31 +23,11 @@ const AppRouter: React.FC = () => {
         <Route path={ROUTES.LOGIN} element={<LoginPage />} />
         <Route path={ROUTES.SIGNUP} element={<SignUpPage />} />
         <Route path={ROUTES.PASSWORD} element={<ForgotPasswordPage />} />
-        
-        {/* Protected Routes */}
-        <Route
-          path={ROUTES.REQUEST}
-          element={
-            <PrivateRoute>
-              <BookingTable />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path={ROUTES.ADMIN}
-          element={
-            <PrivateRoute>
-              <AdminDashboard />
-            </PrivateRoute>
-          }
-        />
+        <Route path={ROUTES.REQUEST} element={<BookingTable />} />
+        <Route path={ROUTES.ADMIN} element={<AdminDashboard />} />
         <Route
           path={ROUTES.PHOTOGRAPHER}
-          element={
-            <PrivateRoute>
-              <PhotographerDetailsPage />
-            </PrivateRoute>
-          }
+          element={<PhotographerDetailsPage />}
         />
       </Routes>
     </Router>

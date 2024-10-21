@@ -15,3 +15,18 @@ export const photographerSignup = createAsyncThunk(
     }
   }
 );
+
+// Photographer login async action
+export const photographerLogin = createAsyncThunk(
+  "photographer/login",
+  async (payload: any, { rejectWithValue }) => {
+    try {
+      const response = await photographerClient.post("/login", payload);
+      return response.data;
+    } catch (error: any) {
+      const errorMsg =
+        error.response?.data?.message || error.message || "Login failed";
+      return rejectWithValue(errorMsg);
+    }
+  }
+);
