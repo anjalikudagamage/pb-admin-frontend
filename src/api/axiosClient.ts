@@ -1,11 +1,11 @@
-import axios from "axios";
+import axios, { AxiosInstance, AxiosResponse, AxiosError, InternalAxiosRequestConfig } from "axios";
 
 // Base URLs from your .env.production
 const photographerServiceBaseURL: string = "http://localhost:8082/photographer";
 const bookingServiceBaseURL: string = import.meta.env.VITE_BOOKING_SERVICE_URL as string;
 
 // Create Axios clients for both services
-const photographerClient = axios.create({
+const photographerClient: AxiosInstance = axios.create({
   baseURL: photographerServiceBaseURL,
   headers: {
     "Content-Type": "application/json",
@@ -13,7 +13,7 @@ const photographerClient = axios.create({
   withCredentials: true,
 });
 
-const bookingClient = axios.create({
+const bookingClient: AxiosInstance = axios.create({
   baseURL: bookingServiceBaseURL,
   headers: {
     "Content-Type": "application/json",
@@ -22,18 +22,21 @@ const bookingClient = axios.create({
 });
 
 // Setup interceptors
-const setupInterceptors = (client: any) => {
+const setupInterceptors = (client: AxiosInstance) => {
   client.interceptors.request.use(
-    (config: { timeout: number }) => {
+    (config: InternalAxiosRequestConfig) => {
       config.timeout = 120000;
+
+      // Ensure headers are always set to prevent type mismatches
+      config.headers = config.headers || {};
       return config;
     },
-    (error: any) => Promise.reject(error)
+    (error: AxiosError) => Promise.reject(error)
   );
 
   client.interceptors.response.use(
-    (response: any) => response,
-    (error: any) => Promise.reject(error)
+    (response: AxiosResponse) => response,
+    (error: AxiosError) => Promise.reject(error)
   );
 };
 
