@@ -18,7 +18,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { photographerLogin } from "../../../redux/actions/photographerActions";
-import { RootState, AppDispatch } from "../../../redux/store"; // Import types
+import { RootState, AppDispatch } from "../../../redux/store";
 
 const validationSchema = Yup.object({
   email: Yup.string()
@@ -32,6 +32,8 @@ const validationSchema = Yup.object({
 const LoginPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+
+  // Fix: Properly type the state from useSelector
   const { isLoading, error } = useSelector(
     (state: RootState) => state.photographer
   );
