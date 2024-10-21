@@ -16,6 +16,9 @@ import {
   linkStyle,
 } from "./styles";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { photographerLogin } from "../../../redux/actions/photographerActions";
+import { RootState, AppDispatch } from "../../../redux/store";
 
 const validationSchema = Yup.object({
   email: Yup.string()
@@ -27,13 +30,22 @@ const validationSchema = Yup.object({
 });
 
 const LoginPage: React.FC = () => {
-  const handleSubmit = (values: { email: string; password: string }) => {
-    // Handle form submission, e.g., log in the user
-    console.log("Submitted email:", values.email);
-    console.log("Submitted password:", values.password);
-  };
-
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+
+  // Fix: Properly type the state from useSelector
+  const { isLoading, error } = useSelector(
+    (state: RootState) => state.photographer
+  );
+
+  const handleSubmit = async (values: { email: string; password: string }) => {
+    try {
+      await dispatch(photographerLogin(values)).unwrap();
+      navigate("/photographer");
+    } catch (err) {
+      console.error("Login error:", err);
+    }
+  };
 
   const handleClick = () => {
     navigate("/signup");
@@ -72,6 +84,9 @@ const LoginPage: React.FC = () => {
         <Typography variant="h4" sx={titleStyle}>
           Login to Your Account
         </Typography>
+        {error && <Typography color="error">{error}</Typography>}{" "}
+        {/* Error display */}
+        {/* Formik form with validation */}
         <Formik
           initialValues={{ email: "", password: "" }}
           validationSchema={validationSchema}
@@ -109,8 +124,8 @@ const LoginPage: React.FC = () => {
               >
                 Forgot Password?
               </Link>
-              <Button type="submit" sx={signUpButtonStyle}>
-                Login
+              <Button type="submit" sx={signUpButtonStyle} disabled={isLoading}>
+                {isLoading ? "Logging in..." : "Login"}
               </Button>
             </Form>
           )}

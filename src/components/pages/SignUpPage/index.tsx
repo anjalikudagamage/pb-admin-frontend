@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import {
@@ -27,6 +28,9 @@ import {
   signUpButtonStyle,
 } from "./styles";
 import SignupPopup from "../../layouts/SignupPopup";
+import { AppDispatch } from "../../../redux/store";
+import { photographerSignup } from "../../../redux/actions/photographerActions";
+import { RootState } from "../../../redux/store";
 
 interface FormValues {
   businessName: string;
@@ -65,10 +69,13 @@ const packagesOptions = [
   "Commercial Package",
 ];
 
-const PhotographerSignupForm: React.FC = () => {
+const SignUpPage: React.FC = () => {
   const [openPopup, setOpenPopup] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [selectedPackages, setSelectedPackages] = useState<string[]>([]);
+
+  // Redux-related states
+  const dispatch: AppDispatch = useDispatch();
+  const { isLoading } = useSelector((state: RootState) => state.photographer);
 
   const initialValues: FormValues = {
     businessName: "",
@@ -99,13 +106,33 @@ const PhotographerSignupForm: React.FC = () => {
           values: FormValues,
           { resetForm }: FormikHelpers<FormValues>
         ) => {
-          setLoading(true);
+          console.log("Form Values:", values);
           try {
-            console.log(values);
+            // Constructing packageDetails correctly
+            const packageDetails = selectedPackages.reduce((acc, pkg) => {
+              const { photos, hours, locations, price } =
+                values.packageDetails[pkg] || {};
+              acc[
+                pkg
+              ] = `photos: ${photos}, hours: ${hours}, locations: ${locations}, price: ${price}`;
+              return acc;
+            }, {} as Record<string, string>);
+
+            // Dispatching the signup action
+            const payload = {
+              businessName: values.businessName,
+              businessDescription: values.businessDescription,
+              email: values.email,
+              password: values.password,
+              packageDetails,
+            };
+
+            await dispatch(photographerSignup(payload)).unwrap();
             resetForm();
-            setOpenPopup(true);
-          } finally {
-            setLoading(false);
+            setSelectedPackages([]); // Clear selected packages
+            setOpenPopup(true); // Open success popup
+          } catch (err) {
+            console.error(err);
           }
         }}
       >
@@ -193,6 +220,10 @@ const PhotographerSignupForm: React.FC = () => {
                                 : selectedPackages.filter((p) => p !== pkg);
                               setSelectedPackages(newSelection);
                               setFieldValue("packages", newSelection);
+                              // Reset package details when unchecked
+                              if (!e.target.checked) {
+                                setFieldValue(`packageDetails.${pkg}`, {}); // Clear details for unchecked package
+                              }
                             }}
                             sx={{
                               color: "white",
@@ -232,7 +263,7 @@ const PhotographerSignupForm: React.FC = () => {
                         <Field
                           as={TextField}
                           name={`packageDetails.${pkg}.hours`}
-                          label="Number of Hours"
+                          label="Duration (Hours)"
                           type="number"
                           fullWidth
                           sx={textField}
@@ -252,17 +283,14 @@ const PhotographerSignupForm: React.FC = () => {
                         <Field
                           as={TextField}
                           name={`packageDetails.${pkg}.price`}
-                          label="Package Price"
+                          label="Price"
                           type="number"
                           fullWidth
                           sx={textField}
                           InputProps={{
                             startAdornment: (
-                              <InputAdornment
-                                position="start"
-                                sx={{ color: "white" }}
-                              >
-                                Rs.
+                              <InputAdornment position="start">
+                                RS
                               </InputAdornment>
                             ),
                           }}
@@ -273,10 +301,10 @@ const PhotographerSignupForm: React.FC = () => {
                 ))}
               </Box>
 
-              {/* Login Details Section */}
+              {/* Password Section */}
               <Box sx={section}>
                 <Typography variant="h6" sx={sectionTitle}>
-                  Login Details
+                  Password
                 </Typography>
                 <Grid container spacing={2}>
                   <Grid item xs={12}>
@@ -310,32 +338,32 @@ const PhotographerSignupForm: React.FC = () => {
                 </Grid>
               </Box>
 
-              {/* Button Section */}
+              {/* Buttons Section */}
               <Box sx={buttonContainer}>
-                <Button type="submit" sx={signUpButtonStyle} disabled={loading}>
-                  {loading ? (
-                    <CircularProgress size={24} sx={{ color: "white" }} />
-                  ) : (
-                    "Signup"
-                  )}
-                </Button>
                 <Button
                   type="button"
                   onClick={handleReset}
                   variant="outlined"
                   sx={clearButton}
                 >
-                  Clear Form
+                  Clear
+                </Button>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  sx={signUpButtonStyle}
+                  disabled={isLoading}
+                >
+                  {isLoading ? <CircularProgress size={24} /> : "Sign Up"}
                 </Button>
               </Box>
             </Box>
           </Form>
         )}
       </Formik>
-
       <SignupPopup open={openPopup} onClose={() => setOpenPopup(false)} />
     </Box>
   );
 };
 
-export default PhotographerSignupForm;
+export default SignUpPage;
