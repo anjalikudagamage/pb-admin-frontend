@@ -62,6 +62,10 @@ function Navbar() {
     navigate("/signup"); 
   };
 
+  const handleAdminDashboardClick = () => {
+    navigate("/admin"); 
+  };
+
   
   return (
     <AppBar position="fixed" sx={appBarSx}>
@@ -121,7 +125,7 @@ function Navbar() {
               justifyContent: "flex-end",
             }}
           >
-            <Button sx={buttonSx}>ADMIN DASHBOARD</Button>
+            <Button sx={buttonSx} onClick={handleAdminDashboardClick}>ADMIN DASHBOARD</Button>
 
             <IconButton size="large" color="inherit" sx={{ ml: 2 }}>
               <EditIcon />

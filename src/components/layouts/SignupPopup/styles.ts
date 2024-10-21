@@ -20,12 +20,8 @@ export const buttonContainer = {
   marginTop: 2,
 };
 
-export const okButtonStyle = {
-  backgroundColor: "red",
-  color: "white",
-};
-
 export const loginButtonStyle = {
   backgroundImage: "linear-gradient(90deg, #FF6B6B, #FF6B6B)",
+  justifyContent: "center",
   color: "white",
 };

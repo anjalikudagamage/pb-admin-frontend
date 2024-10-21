@@ -13,12 +13,3 @@ export const tableStyles = {
   },
 };
 
-export const statusStyles = {
-  display: "inline-block",
-  padding: "4px 12px",
-  borderRadius: "12px",
-  backgroundColor: "#e8f5e9", 
-  color: "#4caf50", 
-  fontWeight: "bold",
-  fontSize: "12px",
-};
