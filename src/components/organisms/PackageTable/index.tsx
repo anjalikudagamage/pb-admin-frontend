@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Grid,
   Typography,
@@ -13,42 +14,17 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { packageTableStyles, BookButton } from "./styles";
 import { useNavigate } from "react-router-dom";
 
-const PackageTable = () => {
-  const packages = [
-    {
-      name: "Wedding Package",
-      price: "LKR 14,699",
-      features: ["2 Hours Session", "20 Edited Photos", "1 Location"],
-      guests: 2,
-      bedType: "1 extra-large double bed or 2 single beds",
-      breakfast: "Non-refundable, Pay in advance",
-    },
-    {
-      name: "Portraits Standards Package",
-      price: "LKR 23,500",
-      features: ["4 Hours Session", "50 Edited Photos", "2 Locations"],
-      guests: 4,
-      bedType: "1 extra-large double bed or 2 single beds",
-      breakfast: "Non-refundable, 10% Genius discount applied",
-    },
-    {
-      name: "Event Package",
-      price: "LKR 14,699",
-      features: ["2 Hours Session", "20 Edited Photos", "1 Location"],
-      guests: 2,
-      bedType: "1 extra-large double bed or 2 single beds",
-      breakfast: "Non-refundable, Pay in advance",
-    },
-    {
-      name: "Commercial Package",
-      price: "LKR 23,500",
-      features: ["4 Hours Session", "50 Edited Photos", "2 Locations"],
-      guests: 4,
-      bedType: "1 extra-large double bed or 2 single beds",
-      breakfast: "Non-refundable, 10% Genius discount applied",
-    },
-  ];
+interface Package {
+  name: string;
+  price: string;
+  features: string[];
+}
 
+interface PackageTableProps {
+  packages: Package[];
+}
+
+const PackageTable: React.FC<PackageTableProps> = ({ packages }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
