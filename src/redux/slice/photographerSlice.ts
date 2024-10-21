@@ -1,27 +1,27 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { photographerSignup } from "../actions/photographerActions";
 
-interface IAuthState {
+interface IPhotographerState {
   isLoading: boolean;
-  isAuthenticated: boolean;
+  isPhotographerenticated: boolean;
   error: string | null;
-  user: IAuthUser | null;
+  user: IPhotographerUser | null;
 }
 
-interface IAuthUser {
+interface IPhotographerUser {
   id: number;
   email: string;
   role: string;
 }
 
-const initialState: IAuthState = {
+const initialState: IPhotographerState = {
   isLoading: false,
-  isAuthenticated: false,
+  isPhotographerenticated: false,
   error: null,
   user: null,
 };
 
-const authSlice = createSlice({
+const photographerSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {},
@@ -33,16 +33,16 @@ const authSlice = createSlice({
       })
       .addCase(photographerSignup.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isAuthenticated = true;
+        state.isPhotographerenticated = true;
         state.user = action.payload.photographerDetails;
         state.error = null;
       })
       .addCase(photographerSignup.rejected, (state, action) => {
         state.isLoading = false;
-        state.isAuthenticated = false;
+        state.isPhotographerenticated = false;
         state.error = action.payload as string;
       });
   },
 });
 
-export default authSlice.reducer;
+export default photographerSlice.reducer;

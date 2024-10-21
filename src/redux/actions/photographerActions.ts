@@ -1,8 +1,17 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { photographerSignupService } from "../../services/photographerService";
+import { photographerClient } from "../../api/axiosClient";
 
+// Photographer signup async action
 export const photographerSignup = createAsyncThunk(
-  "auth/photographerSignup",
-  async (signupData: Record<string, string>, { rejectWithValue }) =>
-    photographerSignupService(signupData).catch((error) => rejectWithValue(error))
+  "photographer/signup",
+  async (payload: any, { rejectWithValue }) => {
+    try {
+      const response = await photographerClient.post("/signup", payload);
+      return response.data;
+    } catch (error: any) {
+      const errorMsg =
+        error.response?.data?.message || error.message || "Signup failed";
+      return rejectWithValue(errorMsg);
+    }
+  }
 );

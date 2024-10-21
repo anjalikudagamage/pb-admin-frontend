@@ -1,10 +1,10 @@
 import axios from "axios";
 
 // Base URLs from your .env.production
-const photographerServiceBaseURL: string = import.meta.env.VITE_PHOTOGRAPHER_SERVICE_URL as string;
+const photographerServiceBaseURL: string = "http://localhost:8082/photographer";
 const bookingServiceBaseURL: string = import.meta.env.VITE_BOOKING_SERVICE_URL as string;
 
-// Create an Axios instance for Photographer Service
+// Create Axios clients for both services
 const photographerClient = axios.create({
   baseURL: photographerServiceBaseURL,
   headers: {
@@ -13,7 +13,6 @@ const photographerClient = axios.create({
   withCredentials: true,
 });
 
-// Create an Axios instance for Booking Service
 const bookingClient = axios.create({
   baseURL: bookingServiceBaseURL,
   headers: {
@@ -22,11 +21,11 @@ const bookingClient = axios.create({
   withCredentials: true,
 });
 
-// Setting up interceptors
+// Setup interceptors
 const setupInterceptors = (client: any) => {
   client.interceptors.request.use(
-    async (config: { timeout: number; }) => {
-      config.timeout = 120000; // Timeout of 2 minutes
+    (config: { timeout: number }) => {
+      config.timeout = 120000;
       return config;
     },
     (error: any) => Promise.reject(error)
@@ -34,22 +33,11 @@ const setupInterceptors = (client: any) => {
 
   client.interceptors.response.use(
     (response: any) => response,
-    async (error: { config: any; response: { status: number; }; }) => {
-      const prevRequest = error?.config;
-      if (error?.response?.status === 401 && !prevRequest?.sent) {
-        prevRequest.sent = true;
-        return client(prevRequest);
-      }
-      return Promise.reject(error);
-    }
+    (error: any) => Promise.reject(error)
   );
 };
 
-// Setup interceptors for both clients
 setupInterceptors(photographerClient);
 setupInterceptors(bookingClient);
 
-// Exporting clients
 export { photographerClient, bookingClient };
-
-
