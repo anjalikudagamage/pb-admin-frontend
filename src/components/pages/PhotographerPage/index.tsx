@@ -9,7 +9,7 @@ import { Typography } from "@mui/material";
 import { sectionTitleStyle, photographerDetailsStyle } from "./styles";
 import PhotographerImage from "../../organisms/PhotographerImage";
 import Footer from "../../atoms/Footer";
-import Img from "../../../assets/images/photographerCard/image1.jpg";
+import Img from "../../../assets/images/photographer/image1.jpg";
 
 const photographers = [
   {
