@@ -2,7 +2,7 @@ import axios, { AxiosInstance, AxiosResponse, AxiosError, InternalAxiosRequestCo
 
 // Base URLs from your .env.production
 const photographerServiceBaseURL: string = "http://localhost:8082/photographer";
-const bookingServiceBaseURL: string = import.meta.env.VITE_BOOKING_SERVICE_URL as string;
+const bookingServiceBaseURL: string = "http://localhost:8081/booking";
 
 // Create Axios clients for both services
 const photographerClient: AxiosInstance = axios.create({

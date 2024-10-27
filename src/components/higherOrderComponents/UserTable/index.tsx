@@ -1,4 +1,5 @@
-import React from "react";
+// UserTable.tsx
+import React, { useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -12,92 +13,75 @@ import {
   Box,
   Paper,
 } from "@mui/material";
-import { tableStyles, statusStyles } from "./styles";
-
-interface User {
-  name: string;
-  email: string;
-  title: string;
-  department: string;
-  status: string;
-  role: string;
-  avatar: string;
-}
-
-const users: User[] = [
-  {
-    name: "John Doe",
-    email: "john@example.com",
-    title: "Software Engineer",
-    department: "Web dev",
-    status: "Active",
-    role: "Owner",
-    avatar: "/path/to/avatar1.jpg",
-  },
-  {
-    name: "Oscar Rhys",
-    email: "oscar@example.com",
-    title: "Software Engineer",
-    department: "Web dev",
-    status: "Active",
-    role: "Owner",
-    avatar: "/path/to/avatar2.jpg",
-  },
-  // Add more users as needed
-];
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../redux/store";
+import { fetchAllBookings } from "../../../redux/actions/bookingActions";
+import { CircularProgress } from "@mui/material";
 
 const UserTable: React.FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { bookings, isLoading, error } = useSelector((state: RootState) => state.booking);
+
+  useEffect(() => {
+    dispatch(fetchAllBookings());
+  }, [dispatch]);
+
   return (
-    <TableContainer component={Paper} sx={tableStyles}>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell>Title</TableCell>
-            <TableCell>Status</TableCell>
-            <TableCell>Role</TableCell>
-            <TableCell align="right">Action</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {users.map((user, index) => (
-            <TableRow key={index}>
-              <TableCell>
-                <Box display="flex" alignItems="center">
-                  <Avatar src={user.avatar} sx={{ mr: 2 }} />
-                  <Box>
-                    <Typography variant="subtitle1" fontWeight="bold">
-                      {user.name}
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary">
-                      {user.email}
-                    </Typography>
-                  </Box>
-                </Box>
-              </TableCell>
-              <TableCell>
-                <Typography variant="subtitle1" fontWeight="bold">
-                  {user.title}
-                </Typography>
-                <Typography variant="body2" color="textSecondary">
-                  {user.department}
-                </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography sx={statusStyles}>{user.status}</Typography>
-              </TableCell>
-              <TableCell>{user.role}</TableCell>
-              <TableCell align="right">
-                <Button variant="text" color="primary">
-                  Edit
-                </Button>
-              </TableCell>
+    <TableContainer component={Paper}>
+      {isLoading ? (
+        <Box display="flex" justifyContent="center" p={2}>
+          <CircularProgress />
+        </Box>
+      ) : error ? (
+        <Typography color="error" align="center">
+          {error}
+        </Typography>
+      ) : (
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Full Name</TableCell>
+              <TableCell>Email</TableCell>
+              <TableCell>Package</TableCell>
+              <TableCell>Event Date</TableCell>
+              <TableCell>Event Time</TableCell>
+              <TableCell>Address</TableCell>
+              <TableCell>Phone Number</TableCell>
+              <TableCell align="right">Action</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHead>
+          <TableBody>
+            {bookings.map((user) => (
+              <TableRow key={user.id}>
+                <TableCell>
+                  <Box display="flex" alignItems="center">
+                    <Avatar src={user.avatar} sx={{ mr: 2 }} />
+                    <Box>
+                      <Typography variant="subtitle1" fontWeight="bold">
+                        {user.fullName}
+                      </Typography>
+                    </Box>
+                  </Box>
+                </TableCell>
+                <TableCell>{user.email}</TableCell>
+                <TableCell>{user.packageName}</TableCell>
+                <TableCell>{user.eventDate}</TableCell>
+                <TableCell>{user.eventTime}</TableCell>
+                <TableCell>{user.address}</TableCell>
+                <TableCell>{user.phoneNumber}</TableCell>
+                <TableCell align="right">
+                  <Button variant="text" color="primary">
+                    Edit
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      )}
     </TableContainer>
   );
 };
 
 export default UserTable;
+

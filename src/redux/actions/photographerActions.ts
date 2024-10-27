@@ -52,3 +52,22 @@ export const photographerLogin = createAsyncThunk(
     }
   }
 );
+
+// Photographer details async action
+export const fetchPhotographerDetails = createAsyncThunk(
+  "photographer/fetchDetails",
+  async (photographerName: string, { rejectWithValue }) => {
+    try {
+      const response = await photographerClient.get(`/details?name=${photographerName}`);
+      return response.data;
+    } catch (error: AxiosError | unknown) {
+      let errorMsg = "Failed to fetch photographer details";
+      if (error instanceof AxiosError && error.response?.data?.message) {
+        errorMsg = error.response.data.message;
+      } else if (error instanceof Error) {
+        errorMsg = error.message;
+      }
+      return rejectWithValue(errorMsg);
+    }
+  }
+);

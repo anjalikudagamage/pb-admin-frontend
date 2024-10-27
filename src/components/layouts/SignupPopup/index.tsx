@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Button, Typography, Modal } from "@mui/material";
-import { modalContainer, popup, buttonContainer, okButtonStyle, loginButtonStyle } from './styles';
+import { modalContainer, popup, buttonContainer, loginButtonStyle } from './styles';
 import { useNavigate } from "react-router-dom"; 
 
 interface SignupPopupProps {
@@ -30,11 +30,8 @@ const SignupPopup: React.FC<SignupPopupProps> = ({
             <br />
             Click the button below to login.
           </Typography>
-          <Box sx={buttonContainer}>
-            <Button variant="contained" onClick={onClose} sx={okButtonStyle}>
-              OK
-            </Button>
-            <Button variant="outlined" onClick={handleLoginClick} sx={loginButtonStyle}>
+          <Box sx={{ ...buttonContainer, justifyContent: "center" }}>
+            <Button onClick={handleLoginClick} sx={loginButtonStyle}>
               Go to Login
             </Button>
           </Box>

@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { photographerSignup, photographerLogin } from "../actions/photographerActions";
+import { photographerSignup, photographerLogin, fetchPhotographerDetails } from "../actions/photographerActions";
 
 interface IPhotographerState {
   isLoading: boolean;
   isPhotographerAuthenticated: boolean;
   error: string | null;
   user: IPhotographerUser | null;
+  photographerDetails: IPhotographerDetails | null;
 }
 
 interface IPhotographerUser {
@@ -14,12 +15,19 @@ interface IPhotographerUser {
   role: string;
 }
 
+interface IPhotographerDetails {
+  photographerName: string;
+  description: string;
+  packages: Array<{ name: string; price: string; features: string[] }>;
+}
+
 const initialState: IPhotographerState = {
   isLoading: false,
   isPhotographerAuthenticated: false,
   error: null,
   user: null,
-};
+  photographerDetails: null,
+}; 
 
 const photographerSlice = createSlice({
   name: "photographer",
@@ -42,7 +50,6 @@ const photographerSlice = createSlice({
       state.isPhotographerAuthenticated = false;
       state.error = action.payload as string;
     })
-    // Login cases
     .addCase(photographerLogin.pending, (state) => {
       state.isLoading = true;
       state.error = null;
@@ -56,6 +63,19 @@ const photographerSlice = createSlice({
     .addCase(photographerLogin.rejected, (state, action) => {
       state.isLoading = false;
       state.isPhotographerAuthenticated = false;
+      state.error = action.payload as string;
+    })
+    .addCase(fetchPhotographerDetails.pending, (state) => {
+      state.isLoading = true;
+      state.error = null;
+    })
+    .addCase(fetchPhotographerDetails.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.photographerDetails = action.payload;
+      state.error = null;
+    })
+    .addCase(fetchPhotographerDetails.rejected, (state, action) => {
+      state.isLoading = false;
       state.error = action.payload as string;
     });
   },

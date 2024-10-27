@@ -1,65 +1,136 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
 import FAQSection from "../../organisms/FAQSection";
 import QuiltedImageList from "../../organisms/PhotographerGallery";
 import PackageTable from "../../organisms/PackageTable";
 import ReviewSection from "../../organisms/ReviewSection";
 import Navbar from "../../organisms/Navbar";
 import { Typography } from "@mui/material";
-import Img from "../../../assets/images/photographer/image1.jpg"
-import {
-  sectionTitleStyle,
-  photographerDetailsStyle,
-} from "./styles";
+import { sectionTitleStyle, photographerDetailsStyle } from "./styles";
 import PhotographerImage from "../../organisms/PhotographerImage";
 import Footer from "../../atoms/Footer";
+import Img from "../../../assets/images/photographer/image1.jpg";
 
-const PhotographerDetailsPage: React.FC = () => {
-  const photographer = {
-    details:
-      "Eternal Moments Photography is a modern photography studio specializing in capturing life's most precious moments with a creative and personalized touch. Founded in 2012, our studio has quickly become a go-to destination for clients seeking high-quality photography for weddings, engagements, portraits, and commercial projects. Nestled in the heart of the city, Sunset Studio features a state-of-the-art facility equipped with the latest camera technology, professional lighting setups, and a variety of customizable backdrops. Our team of skilled photographers and editors is passionate about storytelling through images, and we pride ourselves on creating a relaxed, fun environment where every client feels comfortable and confident in front of the camera. Whether it's a romantic couple's shoot, a lively family portrait, or a sleek corporate headshot, we are dedicated to delivering stunning results that exceed expectations.",
+const photographers = [
+  {
+    photographerName: "Eternal Moments Photography",
+    description:
+      "Eternal Moments Photography is a modern photography studio specializing in capturing life's most precious moments with a creative and personalized touch.",
     packages: [
       {
         name: "Wedding Package",
         price: "$1500",
-        details: "Includes full-day coverage...",
+        features: ["Full-day coverage", "100 Edited Photos", "2 Locations"],
       },
+      {
+        name: "Event Package",
+        price: "$500",
+        features: ["2-hour session", "20 Edited Photos", "1 Location"],
+      },
+    ],
+  },
+  {
+    photographerName: "Timeless Frames Photography",
+    description:
+      "Timeless Frames Photography focuses on capturing candid moments that last a lifetime. We specialize in portrait and event photography.",
+    packages: [
       {
         name: "Portrait Package",
-        price: "$500",
-        details: "Includes a 2-hour session...",
-      },
-    ],
-    reviews: [
-      { author: "Alice", rating: 5, comment: "Amazing experience!" },
-      { author: "Bob", rating: 4, comment: "Great photos, but a bit pricey." },
-    ],
-    faqs: [
-      {
-        question: "Do you travel for shoots?",
-        answer: "Yes, I am available for travel.",
+        price: "$800",
+        features: ["3-hour session", "50 Edited Photos", "Outdoor/Studio"],
       },
       {
-        question: "How long does it take to get the photos?",
-        answer: "Typically within 2 weeks.",
+        name: "Event Package",
+        price: "$700",
+        features: ["5-hour session", "75 Edited Photos", "Unlimited Locations"],
       },
     ],
-  };
+  },
+  {
+    photographerName: "Moments in Focus Photography",
+    description:
+      "Moments in Focus Photography delivers top-quality service with a creative flair. We specialize in family and commercial photography.",
+    packages: [
+      {
+        name: "Family Portrait Package",
+        price: "$1000",
+        features: [
+          "Full-day session",
+          "75 Edited Photos",
+          "1 Studio and 1 Outdoor Location",
+        ],
+      },
+      {
+        name: "Commercial Package",
+        price: "$2000",
+        features: ["Full-day shoot", "100 Edited Photos", "3 Locations"],
+      },
+    ],
+  },
+];
+
+const commonImageUrl = Img;
+
+const PhotographerDetailsPage: React.FC = () => {
+  const location = useLocation();
+  const selectedPhotographerName = location.state?.photographerName;
+  const photographer = photographers.find(
+    (p) => p.photographerName === selectedPhotographerName
+  );
+
+  if (!photographer) {
+    return <div>No photographer data available.</div>;
+  }
 
   return (
     <div>
       <Navbar />
-      <PhotographerImage imageUrl={Img}/>
+
+      {/* Use common image for all photographers */}
+      <PhotographerImage
+        imageUrl={commonImageUrl}
+        photographerName={photographer.photographerName}
+        description={photographer.description}
+      />
+
       <QuiltedImageList />
+
       <Typography sx={sectionTitleStyle}>About the Photographer</Typography>
       <Typography sx={photographerDetailsStyle}>
-        {photographer.details}
+        {photographer.description}
       </Typography>
-      <PackageTable />
-      <ReviewSection />
-      <FAQSection />
-      <Footer/>
+
+      {/* Dynamic Package Table */}
+      <PackageTable packages={photographer.packages} />
+
+      {/* Static Reviews and FAQs */}
+      <ReviewSection
+        reviews={[
+          { author: "John", rating: 5, comment: "Loved the photos!" },
+          {
+            author: "Anna",
+            rating: 4,
+            comment: "Great work, would hire again!",
+          },
+        ]}
+      />
+      <FAQSection
+        faqs={[
+          {
+            question: "Do you provide raw images?",
+            answer: "No, we provide only edited images.",
+          },
+          {
+            question: "Can you travel for events?",
+            answer: "Yes, travel is possible for an additional cost.",
+          },
+        ]}
+      />
+
+      <Footer />
     </div>
   );
 };
 
 export default PhotographerDetailsPage;
+
