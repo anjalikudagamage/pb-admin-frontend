@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -13,22 +12,23 @@ import MenuItem from "@mui/material/MenuItem";
 import CameraEnhanceIcon from "@mui/icons-material/CameraEnhance";
 import LanguageIcon from "@mui/icons-material/Language";
 import HelpIcon from "@mui/icons-material/Help";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
 import LogoutIcon from "@mui/icons-material/Logout";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import { appBarSx, adbIconSx, typographySx, menuSx, buttonSx } from "./styles";
+import { useNavigate } from "react-router-dom";
+import {
+  appBarSx,
+  adbIconSx,
+  typographySx,
+  menuSx,
+  adbIconSxMobile,
+  typographySxMobile,
+  buttonSx,
+} from "./styles";
+
+const pages = ["Showcase Your Expertise", "Sign In"];
 
 function Navbar() {
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const navigate = useNavigate();
-  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
-  const [openLogoutDialog, setOpenLogoutDialog] = useState(false);
-  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -38,35 +38,14 @@ function Navbar() {
     setAnchorElNav(null);
   };
 
-  const handleLogoutClick = () => {
-    setOpenLogoutDialog(true);
+  const handleClick = (page: string) => {
+    if (page === "Showcase Your Expertise") {
+      window.location.href = "http://localhost:5174/login"; // Redirect to admin URL
+    } else if (page === "Sign In") {
+      navigate("/login");
+    }
   };
 
-  const handleCloseLogoutDialog = () => {
-    setOpenLogoutDialog(false);
-  };
-
-  const handleConfirmLogout = () => {
-    navigate("/login"); 
-  };
-
-  const handleDeleteClick = () => {
-    setOpenDeleteDialog(true);
-  };
-
-  const handleCloseDeleteDialog = () => {
-    setOpenDeleteDialog(false);
-  };
-
-  const handleConfirmDelete = () => {
-    navigate("/signup"); 
-  };
-
-  const handleAdminDashboardClick = () => {
-    navigate("/admin"); 
-  };
-
-  
   return (
     <AppBar position="fixed" sx={appBarSx}>
       <Container maxWidth="xl">
@@ -109,14 +88,24 @@ function Navbar() {
               onClose={handleCloseNavMenu}
               sx={menuSx}
             >
-              <MenuItem onClick={handleCloseNavMenu}>
-                <EditIcon sx={{ mr: 1 }} /> Edit
-              </MenuItem>
-              <MenuItem onClick={handleCloseNavMenu}>
-                <DeleteIcon sx={{ mr: 1 }} /> Delete
-              </MenuItem>
+              {pages.map((page) => (
+                <MenuItem key={page} onClick={() => handleClick(page)}>
+                  <Typography textAlign="center">{page}</Typography>
+                </MenuItem>
+              ))}
             </Menu>
           </Box>
+
+          <CameraEnhanceIcon sx={adbIconSxMobile} />
+          <Typography
+            variant="h5"
+            noWrap
+            component="a"
+            href="#app-bar-with-responsive-menu"
+            sx={typographySxMobile}
+          >
+            CLICKBOOKER
+          </Typography>
 
           <Box
             sx={{
@@ -125,70 +114,37 @@ function Navbar() {
               justifyContent: "flex-end",
             }}
           >
-            <Button sx={buttonSx} onClick={handleAdminDashboardClick}>ADMIN DASHBOARD</Button>
-
+            {pages.map((page) => (
+              <Button
+                key={page}
+                onClick={() => handleClick(page)}
+                sx={buttonSx}
+              >
+                {page}
+              </Button>
+            ))}
             <IconButton size="large" color="inherit" sx={{ ml: 2 }}>
-              <EditIcon />
-            </IconButton>
-            <IconButton size="large" color="inherit" sx={{ ml: 2 }} onClick={handleDeleteClick}>
-              <DeleteIcon />
+              <LogoutIcon />
             </IconButton>
             <IconButton
               size="large"
+              aria-label="change language"
               color="inherit"
               sx={{ ml: 2 }}
-              onClick={handleLogoutClick}
             >
-              <LogoutIcon />
-            </IconButton>
-            <IconButton size="large" color="inherit" sx={{ ml: 2 }}>
-              <NotificationsIcon />
-            </IconButton>
-            <IconButton size="large" color="inherit" sx={{ ml: 2 }}>
               <LanguageIcon />
             </IconButton>
-            <IconButton size="large" color="inherit" sx={{ ml: 2 }}>
+            <IconButton
+              size="large"
+              aria-label="contact us"
+              color="inherit"
+              sx={{ ml: 2 }}
+            >
               <HelpIcon />
             </IconButton>
           </Box>
         </Toolbar>
       </Container>
-
-      {/* Logout Confirmation Dialog */}
-      <Dialog open={openLogoutDialog} onClose={handleCloseLogoutDialog}>
-        <DialogTitle>Logout Confirmation</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Are you sure you want to log out?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseLogoutDialog} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleConfirmLogout} color="primary">
-            Logout
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-      {/* Delete Confirmation Dialog */}
-      <Dialog open={openDeleteDialog} onClose={handleCloseDeleteDialog}>
-        <DialogTitle>Delete Confirmation</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Are you sure you want to delete the account?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDeleteDialog} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleConfirmDelete} color="primary">
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
     </AppBar>
   );
 }
