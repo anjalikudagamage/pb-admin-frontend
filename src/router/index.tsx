@@ -11,8 +11,9 @@ import LoginPage from "../components/pages/LoginPage";
 import AdminLogin from "../components/pages/AdminLogin/index.tsx";
 import { ROUTES } from "../constants/routeConstants.ts";
 import BookingTable from "../components/pages/RequestManagement/index.tsx";
-import PhotographerDetailsPage from "../components/pages/PhotographerPage/index.tsx";
 import AdminDashboard from "../components/pages/adminDashboard"
+import PhotographerDetails from "../components/pages/PhotogrpaherDetails/index.tsx";
+
 
 const AppRouter: React.FC = () => {
   return (
@@ -20,15 +21,12 @@ const AppRouter: React.FC = () => {
       <Routes>
         <Route path="/" element={<Navigate to={ROUTES.LOGIN} />} />
         <Route path={ROUTES.ADMINLOGIN} element={<AdminLogin />} />
+        <Route path="/details" element={<PhotographerDetails />} />
         <Route path={ROUTES.LOGIN} element={<LoginPage />} />
         <Route path={ROUTES.SIGNUP} element={<SignUpPage />} />
         <Route path={ROUTES.PASSWORD} element={<ForgotPasswordPage />} />
         <Route path={ROUTES.REQUEST} element={<BookingTable />} />
         <Route path={ROUTES.ADMIN} element={<AdminDashboard />} />
-        <Route
-          path={ROUTES.PHOTOGRAPHER}
-          element={<PhotographerDetailsPage />}
-        />
       </Routes>
     </Router>
   );
