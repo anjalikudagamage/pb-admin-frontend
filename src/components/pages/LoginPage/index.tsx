@@ -41,7 +41,7 @@ const LoginPage: React.FC = () => {
   const handleSubmit = async (values: { email: string; password: string }) => {
     try {
       await dispatch(photographerLogin(values)).unwrap();
-      navigate("/photographer");
+      navigate("/details");
     } catch (err) {
       console.error("Login error:", err);
     }

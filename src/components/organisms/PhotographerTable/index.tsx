@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState, AppDispatch } from "../../../redux/store";
+import { fetchPhotographerDetails } from "../../../redux/actions/photographerActions";
 import { useForm, Controller } from "react-hook-form";
 import { Box, Grid, Button, Typography, TextField } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
@@ -15,55 +18,59 @@ import {
   actionButton,
 } from "./styles";
 
-// Mock data for the photographer details and packages
-const photographerData = {
-  businessName: "Dream Weddings Photography",
-  businessDescription: "Capturing beautiful moments on your special day.",
-  emailAddress: "contact@dreamweddings.com",
-  password: "********",
-  packages: [
-    {
-      name: "Wedding Package",
-      details: {
-        photos: "200 photos",
-        locations: "2 locations",
-        price: "$1500",
-      },
-    },
-    {
-      name: "Portrait Standard Package",
-      details: {
-        photos: "100 photos",
-        locations: "1 location",
-        price: "$800",
-      },
-    },
-    {
-      name: "Event Package",
-      details: {
-        photos: "150 photos",
-        locations: "3 locations",
-        price: "$1200",
-      },
-    },
-    {
-      name: "Commercial Package",
-      details: {
-        photos: "300 photos",
-        locations: "Multiple locations",
-        price: "$2000",
-      },
-    },
-  ],
-};
+interface Package {
+  name: string;
+  details: {
+    photos: number;
+    locations: number;
+    price: number;
+  };
+}
+
+interface PhotographerData {
+  businessName: string;
+  businessDescription: string;
+  emailAddress: string;
+  password: string;
+  packages: Package[];
+}
 
 const PhotographerTable: React.FC = () => {
-  const { control, handleSubmit } = useForm({
-    defaultValues: photographerData,
-  });
+  const dispatch = useDispatch<AppDispatch>();
+  const user = useSelector((state: RootState) => state.photographer.user);
+  const photographerDetails = useSelector(
+    (state: RootState) => state.photographer.photographerDetails
+  );
+
   const [isEditing, setIsEditing] = useState(false);
 
-  const onSubmit = (data: any) => {
+  useEffect(() => {
+    if (user && user.id) {
+      dispatch(fetchPhotographerDetails(user.id));
+    }
+  }, [user, dispatch]);
+
+  const { control, handleSubmit, setValue } = useForm<PhotographerData>({
+    defaultValues: {
+      businessName: "",
+      businessDescription: "",
+      emailAddress: "",
+      password: "",
+      packages: [],
+    },
+  });
+
+  useEffect(() => {
+    if (photographerDetails) {
+      setValue("businessName", photographerDetails.businessName || "");
+      setValue("businessDescription", photographerDetails.businessDescription || "");
+      setValue("emailAddress", user?.email || "");
+      setValue("password", user?.password || "********");
+      setValue("packages", photographerDetails.packages || []);
+    }
+  }, [photographerDetails, user, setValue]);
+
+  const onSubmit = (data: PhotographerData) => {
     console.log("Updated Data:", data);
     setIsEditing(false);
   };
@@ -97,7 +104,7 @@ const PhotographerTable: React.FC = () => {
           </Grid>
         </Grid>
 
-        {/* Header rows */}
+        {/* Business Name */}
         <Grid container sx={row}>
           <Grid item xs={4} sx={headerCell}>
             Business Name
@@ -116,6 +123,8 @@ const PhotographerTable: React.FC = () => {
             />
           </Grid>
         </Grid>
+
+        {/* Business Description */}
         <Grid container sx={row}>
           <Grid item xs={4} sx={headerCell}>
             Business Description
@@ -134,6 +143,8 @@ const PhotographerTable: React.FC = () => {
             />
           </Grid>
         </Grid>
+
+        {/* Email Address */}
         <Grid container sx={row}>
           <Grid item xs={4} sx={headerCell}>
             Email Address
@@ -153,61 +164,65 @@ const PhotographerTable: React.FC = () => {
           </Grid>
         </Grid>
 
-        {/* Package header */}
+        {/* Package Header */}
         <Grid container sx={row}>
           <Grid item xs={12} sx={packageHeader}>
             Packages
           </Grid>
         </Grid>
 
-        {/* Package rows with details */}
-        {photographerData.packages.map((pkg, index) => (
-          <Grid container key={index} sx={row}>
-            <Grid item xs={4} sx={headerCell}>
-              {pkg.name}
+        {/* Package Rows */}
+        {Array.isArray(photographerDetails?.packages) && photographerDetails.packages.length > 0 ? (
+          photographerDetails.packages.map((pkg, index) => (
+            <Grid container key={index} sx={row}>
+              <Grid item xs={4} sx={headerCell}>
+                {pkg.name}
+              </Grid>
+              <Grid item xs={8} sx={packageCell}>
+                <Typography>Photos:</Typography>
+                <Controller
+                  name={`packages.${index}.details.photos`}
+                  control={control}
+                  render={({ field }) =>
+                    isEditing ? (
+                      <TextField {...field} fullWidth type="number" />
+                    ) : (
+                      <Typography>{field.value}</Typography>
+                    )
+                  }
+                />
+                <Typography>Locations:</Typography>
+                <Controller
+                  name={`packages.${index}.details.locations`}
+                  control={control}
+                  render={({ field }) =>
+                    isEditing ? (
+                      <TextField {...field} fullWidth type="number" />
+                    ) : (
+                      <Typography>{field.value}</Typography>
+                    )
+                  }
+                />
+                <Typography>Price:</Typography>
+                <Controller
+                  name={`packages.${index}.details.price`}
+                  control={control}
+                  render={({ field }) =>
+                    isEditing ? (
+                      <TextField {...field} fullWidth type="number" />
+                    ) : (
+                      <Typography>{field.value}</Typography>
+                    )
+                  }
+                />
+              </Grid>
             </Grid>
-            <Grid item xs={8} sx={packageCell}>
-              <Typography>Photos:</Typography>
-              <Controller
-                name={`packages[${index}].details.photos` as any} // Cast to `any`
-                control={control}
-                render={({ field }) =>
-                  isEditing ? (
-                    <TextField {...field} fullWidth />
-                  ) : (
-                    <Typography>{field.value}</Typography>
-                  )
-                }
-              />
-              <Typography>Locations:</Typography>
-              <Controller
-                name={`packages[${index}].details.locations` as any}
-                control={control}
-                render={({ field }) =>
-                  isEditing ? (
-                    <TextField {...field} fullWidth />
-                  ) : (
-                    <Typography>{field.value}</Typography>
-                  )
-                }
-              />
-              <Typography>Price:</Typography>
-              <Controller
-                name={`packages[${index}].details.price` as any}
-                control={control}
-                render={({ field }) =>
-                  isEditing ? (
-                    <TextField {...field} fullWidth />
-                  ) : (
-                    <Typography>{field.value}</Typography>
-                  )
-                }
-              />
-            </Grid>
-          </Grid>
-        ))}
+          ))
+        ) : (
+          <Typography>No packages available.</Typography>
+        )}
 
-        {/* Password row */}
+        {/* Password Row */}
         <Grid container sx={row}>
           <Grid item xs={4} sx={headerCell}>
             Password
