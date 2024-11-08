@@ -1,22 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "../../../redux/store";
-import { fetchPhotographerDetails } from "../../../redux/actions/photographerActions";
+import { fetchPhotographerDetails, updatePhotographer } from "../../../redux/actions/photographerActions";
 import { useForm, Controller } from "react-hook-form";
-import { Box, Grid, Button, Typography, TextField } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
-import SaveIcon from "@mui/icons-material/Save";
-import {
-  container,
-  row,
-  headerCell,
-  cell,
-  packageHeader,
-  packageCell,
-  actionRow,
-  actionCell,
-  actionButton,
-} from "./styles";
+import { Box, Grid, Typography, TextField, Button } from "@mui/material";
+import { container, row, headerCell, cell, packageHeader, packageCell } from "./styles";
 
 interface Package {
   name: string;
@@ -71,7 +59,31 @@ const PhotographerTable: React.FC = () => {
   }, [photographerDetails, user, setValue]);
 
   const onSubmit = (data: PhotographerData) => {
-    console.log("Updated Data:", data);
+    if (!user) {
+      console.error("User is not logged in.");
+      return;
+    }
+
+    const payload = {
+      id: user.id,
+      businessName: data.businessName,
+      businessDescription: data.businessDescription,
+      email: data.emailAddress,
+      password: data.password,
+      packageDetails: data.packages.reduce((acc, pkg) => {
+        acc[pkg.name] = {
+          photos: pkg.details.photos,
+          locations: pkg.details.locations,
+          price: pkg.details.price,
+        };
+        return acc;
+      }, {} as Record<string, { photos: number; locations: number; price: number }>),
+    };
+
+    dispatch(updatePhotographer(payload)).then(() => {
+      dispatch(fetchPhotographerDetails(user.id));
+    });
+
     setIsEditing(false);
   };
 
@@ -79,29 +91,15 @@ const PhotographerTable: React.FC = () => {
     <Box sx={container}>
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* Action buttons row */}
-        <Grid container sx={actionRow}>
-          <Grid item xs={4} />
-          <Grid item xs={8} sx={actionCell}>
-            <Button
-              variant="contained"
-              color="primary"
-              sx={actionButton}
-              onClick={() => setIsEditing(!isEditing)}
-            >
-              {isEditing ? <SaveIcon /> : <EditIcon />}
-              {isEditing ? "Save" : "Edit"}
+        <Grid container justifyContent="flex-end">
+          <Button onClick={() => setIsEditing(!isEditing)} variant="contained" color="primary">
+            {isEditing ? "Cancel" : "Edit"}
+          </Button>
+          {isEditing && (
+            <Button type="submit" variant="contained" color="secondary" sx={{ ml: 2 }}>
+              Save
             </Button>
-            {isEditing && (
-              <Button
-                type="submit"
-                variant="contained"
-                color="success"
-                sx={actionButton}
-              >
-                Save Changes
-              </Button>
-            )}
-          </Grid>
+          )}
         </Grid>
 
         {/* Business Name */}

@@ -10,13 +10,6 @@ export const row = {
   borderBottom: "1px solid black",
 };
 
-export const actionRow = {
-  display: "flex",
-  justifyContent: "flex-end",
-  padding: "10px",
-  borderBottom: "1px solid black",
-};
-
 export const headerRow = {
   display: "flex",
   fontWeight: "bold",
@@ -45,13 +38,4 @@ export const packageHeader = {
 export const packageCell = {
   padding: "10px",
   borderRight: "1px solid black",
-};
-
-export const actionCell = {
-  display: "flex",
-  gap: "10px",
-};
-
-export const actionButton = {
-  minWidth: "80px",
 };

@@ -105,10 +105,16 @@ const photographerSlice = createSlice({
       .addCase(updatePhotographer.fulfilled, (state, action) => {
         state.photographerDetails = action.payload;
         state.error = null;
-      })
-      .addCase(updatePhotographer.rejected, (state, action) => {
+        state.isLoading = false;
+    })
+    .addCase(updatePhotographer.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+    })
+    .addCase(updatePhotographer.rejected, (state, action) => {
+        state.isLoading = false;
         state.error = action.payload as string;
-      });
+    });
   },
 });
 
