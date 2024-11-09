@@ -15,17 +15,16 @@ interface LoginPayload {
   password: string;
 }
 
-interface UpdatePayload {
+// Define the UpdatePayload type
+type UpdatePayload = {
   id: number;
   businessName: string;
   businessDescription: string;
   email: string;
   password: string;
-  packageDetails: Record<
-    string,
-    { photos: number; locations: number; price: number }
-  >;
-}
+  packageDetails: Record<string, string>; // packageDetails as flat string structure
+};
+
 
 // Photographer signup async action
 export const photographerSignup = createAsyncThunk(
@@ -106,7 +105,7 @@ export const updatePhotographer = createAsyncThunk(
   async (payload: UpdatePayload, { rejectWithValue }) => {
     try {
       const response = await photographerClient.put(
-        `/photographer/${payload.id}/update`,
+        `/${payload.id}/update`,
         payload
       );
       return response.data;

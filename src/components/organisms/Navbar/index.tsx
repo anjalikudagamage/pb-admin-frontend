@@ -24,7 +24,7 @@ import {
   buttonSx,
 } from "./styles";
 
-const pages = ["Showcase Your Expertise", "Sign In"];
+const pages = ["Booking Requests"];
 
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -39,8 +39,10 @@ function Navbar() {
   };
 
   const handleClick = (page: string) => {
-    if (page === "Showcase Your Expertise") {
-      window.location.href = "http://localhost:5174/login"; // Redirect to admin URL
+    if (page === "Booking Requests") {
+      navigate("/admin"); 
+    } else if (page === "Showcase Your Expertise") {
+      window.location.href = "http://localhost:5174/login"; 
     } else if (page === "Sign In") {
       navigate("/login");
     }

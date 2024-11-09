@@ -1,9 +1,10 @@
+import Navbar from "../../organisms/Navbar";
 import PhotographerTable from "../../organisms/PhotographerTable";
 
 function PhotographerDetails() {
   return (
     <div>
-      <h1>Photographer Details</h1>
+      <Navbar/>
       <PhotographerTable />
     </div>
   );
