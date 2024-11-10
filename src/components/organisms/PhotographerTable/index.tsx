@@ -1,10 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "../../../redux/store";
-import { fetchPhotographerDetails, updatePhotographer } from "../../../redux/actions/photographerActions";
+import {
+  fetchPhotographerDetails,
+  updatePhotographer,
+} from "../../../redux/actions/photographerActions";
 import { useForm, Controller } from "react-hook-form";
-import { Box, Typography, TextField, Button, Card, CardContent, Grid } from "@mui/material";
-import { container, card, cardHeader, formField, actionButtons, editButtonStyle, saveButtonStyle } from "./styles";
+import {
+  Box,
+  Typography,
+  TextField,
+  Button,
+  Card,
+  CardContent,
+  Grid,
+} from "@mui/material";
+import {
+  container,
+  card,
+  cardHeader,
+  formField,
+  actionButtons,
+  editButtonStyle,
+  saveButtonStyle,
+} from "./styles";
 
 interface Package {
   name: string;
@@ -26,7 +45,9 @@ interface PhotographerData {
 const PhotographerTable: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const user = useSelector((state: RootState) => state.photographer.user);
-  const photographerDetails = useSelector((state: RootState) => state.photographer.photographerDetails);
+  const photographerDetails = useSelector(
+    (state: RootState) => state.photographer.photographerDetails
+  );
   const [isEditing, setIsEditing] = useState(false);
 
   const { control, handleSubmit, setValue } = useForm<PhotographerData>({
@@ -48,7 +69,10 @@ const PhotographerTable: React.FC = () => {
   useEffect(() => {
     if (photographerDetails) {
       setValue("businessName", photographerDetails.businessName || "");
-      setValue("businessDescription", photographerDetails.businessDescription || "");
+      setValue(
+        "businessDescription",
+        photographerDetails.businessDescription || ""
+      );
       setValue("emailAddress", user?.email || "");
       setValue("password", user?.password || "********");
       setValue("packages", photographerDetails.packages || []);
@@ -60,7 +84,7 @@ const PhotographerTable: React.FC = () => {
       console.error("User is not logged in.");
       return;
     }
-  
+
     // Construct payload with packageDetails as a flat string for each package
     const payload = {
       id: user.id,
@@ -69,14 +93,21 @@ const PhotographerTable: React.FC = () => {
       email: data.emailAddress,
       password: data.password,
       packageDetails: data.packages.reduce((acc, pkg) => {
-        // Convert package details to a single string
-        acc[pkg.name] = `photos: ${pkg.details.photos}, locations: ${pkg.details.locations}, price: ${pkg.details.price}`;
+        const photos = pkg.details.photos || 0;
+        const locations = pkg.details.locations || 0;
+        const price = pkg.details.price || 0;
+        acc[
+          pkg.name
+        ] = `photos: ${photos}, locations: ${locations}, price: ${price}`;
         return acc;
       }, {} as Record<string, string>),
     };
-  
-    console.log("Attempting to dispatch updatePhotographer with payload:", payload); // Debugging log
-  
+
+    console.log(
+      "Attempting to dispatch updatePhotographer with payload:",
+      payload
+    ); // Debugging log
+
     // Dispatch update and provide feedback
     dispatch(updatePhotographer(payload))
       .unwrap()
@@ -91,7 +122,6 @@ const PhotographerTable: React.FC = () => {
         alert("Failed to update. Please check console for details."); // Temporary feedback
       });
   };
-  
 
   return (
     <Box sx={container}>
@@ -110,7 +140,7 @@ const PhotographerTable: React.FC = () => {
             </Button>
           )}
         </Box>
-        
+
         {/* Business Information */}
         <Card sx={card}>
           <CardContent>
@@ -120,22 +150,37 @@ const PhotographerTable: React.FC = () => {
                 <Controller
                   name="businessName"
                   control={control}
-                  render={({ field }) => isEditing ? (
-                    <TextField {...field} label="Business Name" fullWidth sx={formField} />
-                  ) : (
-                    <Typography variant="h6">{field.value}</Typography>
-                  )}
+                  render={({ field }) =>
+                    isEditing ? (
+                      <TextField
+                        {...field}
+                        label="Business Name"
+                        fullWidth
+                        sx={formField}
+                      />
+                    ) : (
+                      <Typography variant="h6">{field.value}</Typography>
+                    )
+                  }
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <Controller
                   name="businessDescription"
                   control={control}
-                  render={({ field }) => isEditing ? (
-                    <TextField {...field} label="Description" fullWidth multiline sx={formField} />
-                  ) : (
-                    <Typography>{field.value}</Typography>
-                  )}
+                  render={({ field }) =>
+                    isEditing ? (
+                      <TextField
+                        {...field}
+                        label="Description"
+                        fullWidth
+                        multiline
+                        sx={formField}
+                      />
+                    ) : (
+                      <Typography>{field.value}</Typography>
+                    )
+                  }
                 />
               </Grid>
             </Grid>
@@ -149,20 +194,35 @@ const PhotographerTable: React.FC = () => {
             <Controller
               name="emailAddress"
               control={control}
-              render={({ field }) => isEditing ? (
-                <TextField {...field} label="Email Address" fullWidth sx={formField} />
-              ) : (
-                <Typography>{field.value}</Typography>
-              )}
+              render={({ field }) =>
+                isEditing ? (
+                  <TextField
+                    {...field}
+                    label="Email Address"
+                    fullWidth
+                    sx={formField}
+                  />
+                ) : (
+                  <Typography>{field.value}</Typography>
+                )
+              }
             />
             <Controller
               name="password"
               control={control}
-              render={({ field }) => isEditing ? (
-                <TextField {...field} label="Password" fullWidth type="password" sx={formField} />
-              ) : (
-                <Typography>{field.value}</Typography>
-              )}
+              render={({ field }) =>
+                isEditing ? (
+                  <TextField
+                    {...field}
+                    label="Password"
+                    fullWidth
+                    type="password"
+                    sx={formField}
+                  />
+                ) : (
+                  <Typography>{field.value}</Typography>
+                )
+              }
             />
           </CardContent>
         </Card>
@@ -171,42 +231,68 @@ const PhotographerTable: React.FC = () => {
         <Card sx={card}>
           <CardContent>
             <Typography sx={cardHeader}>Packages Information</Typography>
-            {Array.isArray(photographerDetails?.packages) && photographerDetails.packages.length > 0 ? (
+            {Array.isArray(photographerDetails?.packages) &&
+            photographerDetails.packages.length > 0 ? (
               photographerDetails.packages.map((pkg, index) => (
                 <Box key={index} sx={{ mb: 2 }}>
-                  <Typography variant="h6" color="primary">{pkg.name}</Typography>
+                  <Typography variant="h6" color="primary">
+                    {pkg.name}
+                  </Typography>
                   <Grid container spacing={2}>
                     <Grid item xs={4}>
                       <Controller
                         name={`packages.${index}.details.photos`}
                         control={control}
-                        render={({ field }) => isEditing ? (
-                          <TextField {...field} label="Photos" fullWidth type="number" sx={formField} />
-                        ) : (
-                          <Typography>Photos: {field.value}</Typography>
-                        )}
+                        render={({ field }) =>
+                          isEditing ? (
+                            <TextField
+                              {...field}
+                              label="Photos"
+                              fullWidth
+                              type="number"
+                              sx={formField}
+                            />
+                          ) : (
+                            <Typography>Photos: {field.value}</Typography>
+                          )
+                        }
                       />
                     </Grid>
                     <Grid item xs={4}>
                       <Controller
                         name={`packages.${index}.details.locations`}
                         control={control}
-                        render={({ field }) => isEditing ? (
-                          <TextField {...field} label="Locations" fullWidth type="number" sx={formField} />
-                        ) : (
-                          <Typography>Locations: {field.value}</Typography>
-                        )}
+                        render={({ field }) =>
+                          isEditing ? (
+                            <TextField
+                              {...field}
+                              label="Locations"
+                              fullWidth
+                              type="number"
+                              sx={formField}
+                            />
+                          ) : (
+                            <Typography>Locations: {field.value}</Typography>
+                          )
+                        }
                       />
                     </Grid>
                     <Grid item xs={4}>
                       <Controller
                         name={`packages.${index}.details.price`}
                         control={control}
-                        render={({ field }) => isEditing ? (
-                          <TextField {...field} label="Price" fullWidth type="number" sx={formField} />
-                        ) : (
-                          <Typography>Price: Rs.{field.value}</Typography>
-                        )}
+                        render={({ field }) =>
+                          isEditing ? (
+                            <TextField
+                              {...field}
+                              label="Price"
+                              fullWidth
+                              type="number"
+                            />
+                          ) : (
+                            <Typography>Price: Rs.{field.value}</Typography>
+                          )
+                        }
                       />
                     </Grid>
                   </Grid>
