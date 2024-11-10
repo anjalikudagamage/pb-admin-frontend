@@ -1,5 +1,5 @@
 const backgroundStyles = {
-  backgroundColor: "#E78F81", 
+  backgroundColor: "#C7B7A3", 
 };
 
 export default backgroundStyles;

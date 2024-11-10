@@ -14,7 +14,16 @@ import {
   Card,
   CardContent,
   Grid,
+  Tooltip,
+  IconButton,
+  Divider,
 } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import SaveIcon from "@mui/icons-material/Save";
+import CancelIcon from "@mui/icons-material/Cancel";
+import BusinessIcon from "@mui/icons-material/Business";
+import ContactMailIcon from "@mui/icons-material/ContactMail";
+import PackageIcon from "@mui/icons-material/Category"; // Custom package icon
 import {
   container,
   card,
@@ -23,6 +32,8 @@ import {
   actionButtons,
   editButtonStyle,
   saveButtonStyle,
+  titleStyle,
+  pinkLine,
 } from "./styles";
 
 interface Package {
@@ -69,10 +80,7 @@ const PhotographerTable: React.FC = () => {
   useEffect(() => {
     if (photographerDetails) {
       setValue("businessName", photographerDetails.businessName || "");
-      setValue(
-        "businessDescription",
-        photographerDetails.businessDescription || ""
-      );
+      setValue("businessDescription", photographerDetails.businessDescription || "");
       setValue("emailAddress", user?.email || "");
       setValue("password", user?.password || "********");
       setValue("packages", photographerDetails.packages || []);
@@ -85,7 +93,6 @@ const PhotographerTable: React.FC = () => {
       return;
     }
 
-    // Construct payload with packageDetails as a flat string for each package
     const payload = {
       id: user.id,
       businessName: data.businessName,
@@ -103,48 +110,57 @@ const PhotographerTable: React.FC = () => {
       }, {} as Record<string, string>),
     };
 
-    console.log(
-      "Attempting to dispatch updatePhotographer with payload:",
-      payload
-    ); // Debugging log
-
-    // Dispatch update and provide feedback
     dispatch(updatePhotographer(payload))
       .unwrap()
       .then(() => {
-        console.log("Update successful!"); // Log for success
-        alert("Update successful!"); // Temporary feedback
+        alert("Update successful!");
         dispatch(fetchPhotographerDetails(user.id));
         setIsEditing(false);
       })
       .catch((error) => {
-        console.error("Error during update:", error); // Log for error
-        alert("Failed to update. Please check console for details."); // Temporary feedback
+        console.error("Error during update:", error);
+        alert("Failed to update. Please check console for details.");
       });
   };
 
   return (
     <Box sx={container}>
+      <Typography variant="h4" sx={titleStyle}>
+        PROFILE EDITOR
+      </Typography>
+
       <form onSubmit={handleSubmit(onSubmit)}>
         <Box sx={actionButtons}>
-          <Button
-            onClick={() => setIsEditing(!isEditing)}
-            variant="contained"
-            sx={editButtonStyle}
-          >
-            {isEditing ? "Cancel" : "Edit"}
-          </Button>
+          <Tooltip title={isEditing ? "Cancel Edit" : "Edit"}>
+            <IconButton
+              onClick={() => setIsEditing(!isEditing)}
+              sx={editButtonStyle}
+            >
+              {isEditing ? <CancelIcon /> : <EditIcon />}
+            </IconButton>
+          </Tooltip>
           {isEditing && (
-            <Button type="submit" variant="contained" sx={saveButtonStyle}>
-              Save
-            </Button>
+            <Tooltip title="Save Changes">
+              <Button
+                type="submit"
+                variant="contained"
+                sx={saveButtonStyle}
+                startIcon={<SaveIcon />}
+              >
+                Save
+              </Button>
+            </Tooltip>
           )}
         </Box>
 
         {/* Business Information */}
         <Card sx={card}>
           <CardContent>
-            <Typography sx={cardHeader}>Business Information</Typography>
+            <Box sx={cardHeader}>
+              <BusinessIcon sx={{ marginRight: "8px" }} />
+              <Typography variant="h6">Business Information</Typography>
+            </Box>
+            <Divider sx={pinkLine} />
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <Controller
@@ -155,6 +171,7 @@ const PhotographerTable: React.FC = () => {
                       <TextField
                         {...field}
                         label="Business Name"
+                        placeholder="Enter business name"
                         fullWidth
                         sx={formField}
                       />
@@ -173,6 +190,7 @@ const PhotographerTable: React.FC = () => {
                       <TextField
                         {...field}
                         label="Description"
+                        placeholder="Enter business description"
                         fullWidth
                         multiline
                         sx={formField}
@@ -190,7 +208,11 @@ const PhotographerTable: React.FC = () => {
         {/* Contact Information */}
         <Card sx={card}>
           <CardContent>
-            <Typography sx={cardHeader}>Contact Information</Typography>
+            <Box sx={cardHeader}>
+              <ContactMailIcon sx={{ marginRight: "8px" }} />
+              <Typography variant="h6">Contact Information</Typography>
+            </Box>
+            <Divider sx={pinkLine} />
             <Controller
               name="emailAddress"
               control={control}
@@ -199,6 +221,7 @@ const PhotographerTable: React.FC = () => {
                   <TextField
                     {...field}
                     label="Email Address"
+                    placeholder="Enter email address"
                     fullWidth
                     sx={formField}
                   />
@@ -230,7 +253,11 @@ const PhotographerTable: React.FC = () => {
         {/* Package Details */}
         <Card sx={card}>
           <CardContent>
-            <Typography sx={cardHeader}>Packages Information</Typography>
+            <Box sx={cardHeader}>
+              <PackageIcon sx={{ marginRight: "8px" }} />
+              <Typography variant="h6">Packages Information</Typography>
+            </Box>
+            <Divider sx={pinkLine} />
             {Array.isArray(photographerDetails?.packages) &&
             photographerDetails.packages.length > 0 ? (
               photographerDetails.packages.map((pkg, index) => (
@@ -248,6 +275,7 @@ const PhotographerTable: React.FC = () => {
                             <TextField
                               {...field}
                               label="Photos"
+                              placeholder="Number of photos"
                               fullWidth
                               type="number"
                               sx={formField}
@@ -267,6 +295,7 @@ const PhotographerTable: React.FC = () => {
                             <TextField
                               {...field}
                               label="Locations"
+                              placeholder="Number of locations"
                               fullWidth
                               type="number"
                               sx={formField}
@@ -286,8 +315,10 @@ const PhotographerTable: React.FC = () => {
                             <TextField
                               {...field}
                               label="Price"
+                              placeholder="Package price"
                               fullWidth
                               type="number"
+                              sx={formField}
                             />
                           ) : (
                             <Typography>Price: Rs.{field.value}</Typography>
