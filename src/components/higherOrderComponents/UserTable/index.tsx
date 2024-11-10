@@ -12,11 +12,11 @@ import {
   Button,
   Box,
   Paper,
+  CircularProgress,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { fetchAllBookings } from "../../../redux/actions/bookingActions";
-import { CircularProgress } from "@mui/material";
 
 const UserTable: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -72,6 +72,9 @@ const UserTable: React.FC = () => {
                 <TableCell align="right">
                   <Button variant="text" color="primary">
                     Edit
+                  </Button>
+                  <Button variant="text" color="error">
+                    Delete
                   </Button>
                 </TableCell>
               </TableRow>

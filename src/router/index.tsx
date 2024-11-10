@@ -9,7 +9,7 @@ import SignUpPage from "../components/pages/SignUpPage/index.tsx";
 import ForgotPasswordPage from "../components/pages/ForgetPasswordPage/index.tsx";
 import LoginPage from "../components/pages/LoginPage";
 import { ROUTES } from "../constants/routeConstants.ts";
-import AdminDashboard from "../components/pages/adminDashboard";
+import AdminDashboard from "../components/pages/BookingRequests/index.tsx";
 import PhotographerDetails from "../components/pages/PhotogrpaherDetails/index.tsx";
 import ProtectedRoute from "../components/ProtectedRoute";
 
