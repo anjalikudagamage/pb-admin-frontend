@@ -23,7 +23,8 @@ import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Cancel";
 import BusinessIcon from "@mui/icons-material/Business";
 import ContactMailIcon from "@mui/icons-material/ContactMail";
-import PackageIcon from "@mui/icons-material/Category"; // Custom package icon
+import PackageIcon from "@mui/icons-material/Category";
+import SavePopup from "../../organisms/SavePopup";  
 import {
   container,
   card,
@@ -60,6 +61,7 @@ const PhotographerTable: React.FC = () => {
     (state: RootState) => state.photographer.photographerDetails
   );
   const [isEditing, setIsEditing] = useState(false);
+  const [popupOpen, setPopupOpen] = useState(false);  // State for popup
 
   const { control, handleSubmit, setValue } = useForm<PhotographerData>({
     defaultValues: {
@@ -113,7 +115,7 @@ const PhotographerTable: React.FC = () => {
     dispatch(updatePhotographer(payload))
       .unwrap()
       .then(() => {
-        alert("Update successful!");
+        setPopupOpen(true);  // Open popup on success
         dispatch(fetchPhotographerDetails(user.id));
         setIsEditing(false);
       })
@@ -321,7 +323,7 @@ const PhotographerTable: React.FC = () => {
                               sx={formField}
                             />
                           ) : (
-                            <Typography>Price: Rs.{field.value}</Typography>
+                            <Typography>Price: Rs{field.value}</Typography>
                           )
                         }
                       />
@@ -335,6 +337,13 @@ const PhotographerTable: React.FC = () => {
           </CardContent>
         </Card>
       </form>
+
+      {/* Render SavePopup */}
+      <SavePopup
+        open={popupOpen}
+        onClose={() => setPopupOpen(false)}
+        message="Your changes have been saved successfully!"
+      />
     </Box>
   );
 };
