@@ -8,7 +8,7 @@ import { toolbar, search, searchIcon, inputRoot, inputInput } from "./styles";
 
 const Navbar: React.FC = () => {
   return (
-    <AppBar position="static" color="transparent" elevation={0}>
+    <AppBar position="static" color="transparent" elevation={0} sx ={{backgroundColor: "black"}}>
       <Toolbar sx={toolbar}>
         <Box sx={search}>
           <SearchIcon sx={searchIcon} />
@@ -19,7 +19,7 @@ const Navbar: React.FC = () => {
           />
         </Box>
         <IconButton>
-          <NotificationsIcon />
+          <NotificationsIcon sx={{color: "white"}}/>
         </IconButton>
       </Toolbar>
     </AppBar>

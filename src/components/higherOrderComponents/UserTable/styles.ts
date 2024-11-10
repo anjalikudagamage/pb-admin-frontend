@@ -13,3 +13,7 @@ export const tableStyles = {
   },
 };
 
+export const card = {
+  backgroundColor: "#FAF6E3",
+};
+
