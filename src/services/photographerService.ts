@@ -39,3 +39,15 @@ export const photographerLoginService = async (loginData: LoginData) => {
     return Promise.reject("An unknown error occurred during login");
   }
 };
+
+export const fetchPhotographerDetailsService = async (id: number) => {
+  try {
+    const response = await photographerClient.get(`/${id}/details`);
+    return response.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return Promise.reject(error.response?.data?.message || "Failed to fetch details");
+    }
+    return Promise.reject("An unknown error occurred while fetching details");
+  }
+};

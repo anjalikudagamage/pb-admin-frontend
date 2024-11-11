@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Button, TextField, Typography, Link } from "@mui/material";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import backgroundImage from "../../../assets/images/signup/image1.jpg";
+import backgroundImage from "../../../assets/images/signup/image3.jpg";
 import {
   containerStyle,
   imageBoxStyle,
@@ -41,7 +41,7 @@ const LoginPage: React.FC = () => {
   const handleSubmit = async (values: { email: string; password: string }) => {
     try {
       await dispatch(photographerLogin(values)).unwrap();
-      navigate("/photographer");
+      navigate("/details");
     } catch (err) {
       console.error("Login error:", err);
     }
@@ -57,6 +57,7 @@ const LoginPage: React.FC = () => {
 
   return (
     <Box sx={containerStyle}>
+    
       <Box
         sx={{
           ...imageBoxStyle,

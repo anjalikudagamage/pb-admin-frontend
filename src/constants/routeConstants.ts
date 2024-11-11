@@ -3,8 +3,6 @@ export const ROUTES = {
     ADMINLOGIN: "/adminlogin",
     SIGNUP: "/signup",
     PASSWORD: "/password",
-    REQUEST: "/request",
     ADMIN: "/admin",
-    PHOTOGRAPHER: "/photographer",
 };
  

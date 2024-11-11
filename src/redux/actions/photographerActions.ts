@@ -7,13 +7,23 @@ interface SignupPayload {
   businessDescription: string;
   email: string;
   password: string;
-  packageDetails: Record<string, string>; 
+  packageDetails: Record<string, string>;
 }
 
 interface LoginPayload {
   email: string;
   password: string;
 }
+
+// Define the UpdatePayload type
+type UpdatePayload = {
+  id: number;
+  businessName: string;
+  businessDescription: string;
+  email: string;
+  password: string;
+  packageDetails: Record<string, string>;
+};
 
 // Photographer signup async action
 export const photographerSignup = createAsyncThunk(
@@ -41,33 +51,46 @@ export const photographerLogin = createAsyncThunk(
     try {
       const response = await photographerClient.post("/login", payload);
       return response.data;
-    } catch (error: AxiosError | unknown) {
+    } catch (error) {
       let errorMsg = "Login failed";
       if (error instanceof AxiosError && error.response?.data?.message) {
         errorMsg = error.response.data.message;
-      } else if (error instanceof Error) {
-        errorMsg = error.message;
       }
       return rejectWithValue(errorMsg);
     }
   }
 );
 
-// Photographer details async action
+// Fetch photographer details async action
 export const fetchPhotographerDetails = createAsyncThunk(
   "photographer/fetchDetails",
-  async (photographerName: string, { rejectWithValue }) => {
+  async (photographerId: number, { rejectWithValue }) => {
     try {
-      const response = await photographerClient.get(`/details?name=${photographerName}`);
+      const response = await photographerClient.get(`/${photographerId}/details`);
+      const parsedPackageDetails = Object.entries(response.data.packageDetails).map(([name, detailsString]) => {
+        const details = (detailsString as string).match(/\d+/g) || [];
+        const [photos, locations, price] = details.map(Number);
+        return { name, details: { photos, locations, price } };
+      });
+      return { ...response.data, packages: parsedPackageDetails };
+    } catch {
+      return rejectWithValue("Failed to fetch photographer details");
+    }
+  }
+);
+
+// Update photographer async action
+export const updatePhotographer = createAsyncThunk(
+  "photographer/update",
+  async (payload: UpdatePayload, { rejectWithValue }) => {
+    try {
+      const response = await photographerClient.put(
+        `/${payload.id}/update`,
+        payload
+      );
       return response.data;
-    } catch (error: AxiosError | unknown) {
-      let errorMsg = "Failed to fetch photographer details";
-      if (error instanceof AxiosError && error.response?.data?.message) {
-        errorMsg = error.response.data.message;
-      } else if (error instanceof Error) {
-        errorMsg = error.message;
-      }
-      return rejectWithValue(errorMsg);
+    } catch {
+      return rejectWithValue("Failed to update photographer details");
     }
   }
 );
