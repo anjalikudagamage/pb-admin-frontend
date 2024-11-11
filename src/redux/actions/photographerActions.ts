@@ -65,17 +65,17 @@ export const photographerLogin = createAsyncThunk(
 export const fetchPhotographerDetails = createAsyncThunk(
   "photographer/fetchDetails",
   async (photographerId: number, { rejectWithValue }) => {
-      try {
-          const response = await photographerClient.get(`/${photographerId}/details`);
-          const parsedPackageDetails = Object.entries(response.data.packageDetails).map(([name, detailsString]) => {
-              const details = (detailsString as string).match(/\d+/g) || [];
-              const [photos, locations, price] = details.map(Number);
-              return { name, details: { photos, locations, price } };
-          });
-          return { ...response.data, packages: parsedPackageDetails };
-      } catch (error) {
-          return rejectWithValue("Failed to fetch photographer details");
-      }
+    try {
+      const response = await photographerClient.get(`/${photographerId}/details`);
+      const parsedPackageDetails = Object.entries(response.data.packageDetails).map(([name, detailsString]) => {
+        const details = (detailsString as string).match(/\d+/g) || [];
+        const [photos, locations, price] = details.map(Number);
+        return { name, details: { photos, locations, price } };
+      });
+      return { ...response.data, packages: parsedPackageDetails };
+    } catch {
+      return rejectWithValue("Failed to fetch photographer details");
+    }
   }
 );
 

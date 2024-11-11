@@ -39,7 +39,7 @@ export const deleteBooking = createAsyncThunk(
     try {
       await bookingClient.delete(`/${id}`); // Delete the booking using the id
       return id; // Returning the ID for removal from the state
-    } catch (error: AxiosError | unknown) {
+    } catch {
       return rejectWithValue("Failed to delete booking");
     }
   }
@@ -51,7 +51,7 @@ export const updateBooking = createAsyncThunk(
     try {
       const response = await bookingClient.put(`/${booking.id}`, booking); // Update the booking
       return response.data;
-    } catch (error: AxiosError | unknown) {
+    } catch {
       return rejectWithValue("Failed to update booking");
     }
   }
