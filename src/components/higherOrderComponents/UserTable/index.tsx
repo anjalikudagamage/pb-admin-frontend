@@ -26,12 +26,24 @@ import PhoneIcon from "@mui/icons-material/Phone";
 import DateRangeIcon from "@mui/icons-material/DateRange";
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 
+// Define the type for the booking object
+interface Booking {
+  id: number;
+  fullName: string;
+  email: string;
+  packageName: string;
+  eventDate: string;
+  eventTime: string;
+  address: string;
+  phoneNumber: string;
+}
+
 const UserCards: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { bookings, isLoading, error } = useSelector((state: RootState) => state.booking);
 
   const [editingId, setEditingId] = useState<number | null>(null);
-  const [editedBooking, setEditedBooking] = useState({
+  const [editedBooking, setEditedBooking] = useState<Booking>({
     id: 0,
     fullName: "",
     email: "",
@@ -49,7 +61,7 @@ const UserCards: React.FC = () => {
     dispatch(fetchAllBookings());
   }, [dispatch]);
 
-  const handleEditClick = (booking: any) => {
+  const handleEditClick = (booking: Booking) => {
     setEditingId(booking.id);
     setEditedBooking(booking);
   };
@@ -103,7 +115,7 @@ const UserCards: React.FC = () => {
           {error}
         </Typography>
       ) : (
-        bookings.map((booking) => (
+        bookings.map((booking: Booking) => (
           <Card key={booking.id} sx={{
             display: "flex",
             flexDirection: "column",
@@ -223,7 +235,7 @@ const UserCards: React.FC = () => {
                       <Typography variant="body2">{booking.eventDate} at {booking.eventTime}</Typography>
                     </Box>
                     <Typography variant="body2" fontStyle="italic" color={green[600]} fontSize={20} display={"flex"}>
-                    <AddAPhotoIcon sx={{ marginRight: 1 }} />  {booking.packageName}
+                      <AddAPhotoIcon sx={{ marginRight: 1 }} />  {booking.packageName}
                     </Typography>
                   </Box>
                 </CardContent>
