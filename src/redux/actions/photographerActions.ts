@@ -22,7 +22,7 @@ type UpdatePayload = {
   businessDescription: string;
   email: string;
   password: string;
-  packageDetails: Record<string, string>; // packageDetails as flat string structure
+  packageDetails: Record<string, string>;
 };
 
 // Photographer signup async action
@@ -44,13 +44,13 @@ export const photographerSignup = createAsyncThunk(
   }
 );
 
-// photographerActions.ts
+// Photographer login async action
 export const photographerLogin = createAsyncThunk(
   "photographer/login",
   async (payload: LoginPayload, { rejectWithValue }) => {
     try {
       const response = await photographerClient.post("/login", payload);
-      return response.data; // Returns the photographer data on successful login
+      return response.data;
     } catch (error) {
       let errorMsg = "Login failed";
       if (error instanceof AxiosError && error.response?.data?.message) {
@@ -79,6 +79,7 @@ export const fetchPhotographerDetails = createAsyncThunk(
   }
 );
 
+// Update photographer async action
 export const updatePhotographer = createAsyncThunk(
   "photographer/update",
   async (payload: UpdatePayload, { rejectWithValue }) => {
@@ -88,12 +89,8 @@ export const updatePhotographer = createAsyncThunk(
         payload
       );
       return response.data;
-    } catch (error) {
-      let errorMsg = "Failed to update photographer details";
-      if (error instanceof AxiosError && error.response?.data?.message) {
-        errorMsg = error.response.data.message;
-      }
-      return rejectWithValue(errorMsg);
+    } catch {
+      return rejectWithValue("Failed to update photographer details");
     }
   }
 );
