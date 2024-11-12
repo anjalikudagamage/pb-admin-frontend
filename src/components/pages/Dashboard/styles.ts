@@ -8,6 +8,6 @@ export const titleStyle = {
   };
   
   export const backgroundStyles = {
-    backgroundColor: "#C7B7A3",
+    backgroundColor: "#1e1e2e"
   };
   
