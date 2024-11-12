@@ -9,7 +9,13 @@ interface IButtonProps {
 
 const TextButton: React.FC<IButtonProps> = ({ text, onClick }) => {
   return (
-    <Button fullWidth variant="contained" color="primary" sx={ButtonStyle} onClick={onClick}>
+    <Button
+      fullWidth
+      variant="contained"
+      color="primary"
+      sx={ButtonStyle}
+      onClick={onClick}
+    >
       {text}
     </Button>
   );

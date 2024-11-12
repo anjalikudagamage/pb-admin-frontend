@@ -33,7 +33,6 @@ const LoginPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
-  // Fix: Properly type the state from useSelector
   const { isLoading, error } = useSelector(
     (state: RootState) => state.photographer
   );
@@ -57,7 +56,6 @@ const LoginPage: React.FC = () => {
 
   return (
     <Box sx={containerStyle}>
-    
       <Box
         sx={{
           ...imageBoxStyle,
@@ -86,8 +84,6 @@ const LoginPage: React.FC = () => {
           Login to Your Account
         </Typography>
         {error && <Typography color="error">{error}</Typography>}{" "}
-        {/* Error display */}
-        {/* Formik form with validation */}
         <Formik
           initialValues={{ email: "", password: "" }}
           validationSchema={validationSchema}

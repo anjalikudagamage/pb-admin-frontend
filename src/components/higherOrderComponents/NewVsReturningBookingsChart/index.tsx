@@ -3,15 +3,13 @@ import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recha
 
 // Sample data
 const data = [
-  { name: 'Weddings', value: 35 },
-  { name: 'Portraits', value: 25 },
-  { name: 'Events', value: 20 },
-  { name: 'Commercial', value: 20 },
+  { name: 'New Bookings', value: 38 },
+  { name: 'Returning Bookings', value: 62 },
 ];
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+const COLORS = ['#8A2BE2', '#FF1493'];
 
-const BookingsByPackageType: React.FC = () => {
+const NewVsReturningBookingsChart: React.FC = () => {
   return (
     <ResponsiveContainer width="100%" height={300}>
       <PieChart>
@@ -35,4 +33,4 @@ const BookingsByPackageType: React.FC = () => {
   );
 };
 
-export default BookingsByPackageType;
+export default NewVsReturningBookingsChart;

@@ -27,7 +27,9 @@ import {
 const pages = ["Booking Requests", "Analytics Dashboard", "Profile Settings"];
 
 function Navbar() {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
+    null
+  );
   const navigate = useNavigate();
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -40,13 +42,13 @@ function Navbar() {
 
   const handleClick = (page: string) => {
     if (page === "Booking Requests") {
-      navigate("/admin"); 
+      navigate("/requets");
     } else if (page === "Analytics Dashboard") {
-      navigate("/dashbord"); 
-    }  else if (page === "Profile Settings") {
-      navigate("/details"); 
-    }  else if (page === "Showcase Your Expertise") {
-      window.location.href = "http://localhost:5174/login"; 
+      navigate("/dashbord");
+    } else if (page === "Profile Settings") {
+      navigate("/details");
+    } else if (page === "Showcase Your Expertise") {
+      window.location.href = "http://localhost:5174/login";
     } else if (page === "Sign In") {
       navigate("/login");
     }

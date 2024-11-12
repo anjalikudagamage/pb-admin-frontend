@@ -12,7 +12,7 @@ import { ROUTES } from "../constants/routeConstants.ts";
 import AdminDashboard from "../components/pages/BookingRequests/index.tsx";
 import PhotographerDetails from "../components/pages/PhotogrpaherDetails/index.tsx";
 import ProtectedRoute from "../components/ProtectedRoute";
-import Dashbord from "../components/pages/Dashboard/index.tsx";
+import Dashbord from "../components/pages/AnalyticsDashboard/index.tsx";
 
 const AppRouter: React.FC = () => {
   return (
@@ -25,9 +25,9 @@ const AppRouter: React.FC = () => {
 
         {/* Protected Routes */}
         <Route element={<ProtectedRoute />}>
-          <Route path="/details" element={<PhotographerDetails />} />
-          <Route path={ROUTES.ADMIN} element={<AdminDashboard />} />
-          <Route path="/dashbord" element={<Dashbord/>} />
+          <Route path={ROUTES.PROFILESETTING} element={<PhotographerDetails />} />
+          <Route path={ROUTES.REQUETS} element={<AdminDashboard />} />
+          <Route path={ROUTES.DASHBOARD} element={<Dashbord/>} />
         </Route>
       </Routes>
     </Router>

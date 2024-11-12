@@ -34,7 +34,7 @@ export const cardHeader = {
   fontSize: "18px",
   color: "#2A3663",
   marginBottom: "10px",
-  display: "flex"
+  display: "flex",
 };
 
 export const formField = {

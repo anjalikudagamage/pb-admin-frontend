@@ -132,7 +132,6 @@ const SignUpPage: React.FC = () => {
           </Box>
           <Box display="flex" alignItems="center" gap="0.5rem">
             <Build fontSize="large" sx={{ color: "#00e5ff" }} />{" "}
-            {/* Added icon here */}
             <Typography variant="body1">
               <strong>Offer Custom Packages</strong>: Design packages that match
               different client needs, from events to personal shoots.
@@ -173,7 +172,6 @@ const SignUpPage: React.FC = () => {
               ) => {
                 console.log("Form Values:", values);
                 try {
-                  // Constructing packageDetails correctly
                   const packageDetails = selectedPackages.reduce((acc, pkg) => {
                     const { photos, hours, locations, price } =
                       values.packageDetails[pkg] || {};
@@ -183,7 +181,6 @@ const SignUpPage: React.FC = () => {
                     return acc;
                   }, {} as Record<string, string>);
 
-                  // Dispatching the signup action
                   const payload = {
                     businessName: values.businessName,
                     businessDescription: values.businessDescription,
@@ -194,8 +191,8 @@ const SignUpPage: React.FC = () => {
 
                   await dispatch(photographerSignup(payload)).unwrap();
                   resetForm();
-                  setSelectedPackages([]); // Clear selected packages
-                  setOpenPopup(true); // Open success popup
+                  setSelectedPackages([]);
+                  setOpenPopup(true);
                 } catch (err) {
                   console.error(err);
                 }
@@ -295,12 +292,11 @@ const SignUpPage: React.FC = () => {
                                         );
                                     setSelectedPackages(newSelection);
                                     setFieldValue("packages", newSelection);
-                                    // Reset package details when unchecked
                                     if (!e.target.checked) {
                                       setFieldValue(
                                         `packageDetails.${pkg}`,
                                         {}
-                                      ); // Clear details for unchecked package
+                                      );
                                     }
                                   }}
                                   sx={{

@@ -54,8 +54,8 @@ export const clearButton: SxProps = {
 };
 
 export const signUpButtonStyle: SxProps<Theme> = {
-  width: '30%',
-  backgroundImage: "linear-gradient(90deg, #FF6B6B, #FF6B6B)", 
+  width: "30%",
+  backgroundImage: "linear-gradient(90deg, #FF6B6B, #FF6B6B)",
   color: "white",
   padding: "15px 45px",
   textAlign: "center",

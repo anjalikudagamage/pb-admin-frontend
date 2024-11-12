@@ -1,4 +1,3 @@
-// popupStyles.ts
 import { SxProps, Theme } from "@mui/system";
 
 export const dialog: SxProps<Theme> = {
@@ -6,7 +5,7 @@ export const dialog: SxProps<Theme> = {
     width: "300px",
     padding: "20px",
     borderRadius: "8px",
-    animation: "fadeIn 0.3s ease-in-out", // Adds a subtle fade-in animation
+    animation: "fadeIn 0.3s ease-in-out",
     "@keyframes fadeIn": {
       "0%": { opacity: 0 },
       "100%": { opacity: 1 },

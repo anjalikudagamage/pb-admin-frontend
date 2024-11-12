@@ -1,4 +1,3 @@
-// SavePopup.tsx
 import React from "react";
 import {
   Dialog,
@@ -15,14 +14,18 @@ interface PopupProps {
   onClose: () => void;
 }
 
-const SavePopup: React.FC<PopupProps> = ({ open, message: popupMessage, onClose }) => {
+const SavePopup: React.FC<PopupProps> = ({
+  open,
+  message: popupMessage,
+  onClose,
+}) => {
   return (
     <Dialog
       open={open}
       onClose={onClose}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
-      sx={dialog} // Apply dialog style
+      sx={dialog}
     >
       <DialogTitle id="alert-dialog-title" sx={title}>
         SUCCESS
@@ -40,4 +43,3 @@ const SavePopup: React.FC<PopupProps> = ({ open, message: popupMessage, onClose 
 };
 
 export default SavePopup;
-
