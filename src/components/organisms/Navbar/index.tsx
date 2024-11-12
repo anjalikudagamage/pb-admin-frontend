@@ -24,7 +24,7 @@ import {
   buttonSx,
 } from "./styles";
 
-const pages = ["Booking Requests", "Dashboard"];
+const pages = ["Booking Requests", "Analytics Dashboard", "Profile Settings"];
 
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -41,8 +41,10 @@ function Navbar() {
   const handleClick = (page: string) => {
     if (page === "Booking Requests") {
       navigate("/admin"); 
-    } else if (page === "Dashboard") {
+    } else if (page === "Analytics Dashboard") {
       navigate("/dashbord"); 
+    }  else if (page === "Profile Settings") {
+      navigate("/details"); 
     }  else if (page === "Showcase Your Expertise") {
       window.location.href = "http://localhost:5174/login"; 
     } else if (page === "Sign In") {

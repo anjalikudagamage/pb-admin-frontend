@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Container, Typography } from "@mui/material";
-import Navbar from "../../organisms/adminNavbar";
+import Navbar from "../../organisms/Navbar";
 import UserTable from "../../higherOrderComponents/UserTable";
 import {
   titleStyle,
@@ -11,7 +11,7 @@ const BookingRequests: React.FC = () => {
   return (
     <Box sx={backgroundStyles}>
       {/* Navbar */}
-      <Navbar />
+      <Navbar/>
 
       <Container >
         <Typography variant="h5" sx={titleStyle}>
