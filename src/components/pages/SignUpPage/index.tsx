@@ -16,7 +16,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import bgImg from "../../../assets/images/signup/image3.jpg";
+import bgImg from "../../../assets/images/signup/image.png";
 import {
   formContainer,
   formTitle,
@@ -31,7 +31,7 @@ import SignupPopup from "../../layouts/SignupPopup";
 import { AppDispatch } from "../../../redux/store";
 import { photographerSignup } from "../../../redux/actions/photographerActions";
 import { RootState } from "../../../redux/store";
-import { AccessTime, Build, CameraAlt, Payment } from "@mui/icons-material";
+import { AccessTime, Assessment, Build, CameraAlt, Campaign, Collections, Payment, PeopleAlt, Star, SupportAgent } from "@mui/icons-material";
 
 interface FormValues {
   businessName: string;
@@ -96,62 +96,115 @@ const SignUpPage: React.FC = () => {
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-          height: "128vh",
+          height: "180vh",
           width: "100vw",
           color: "white",
         }}
       >
-        <Grid
-          item
-          xs={12}
-          md={4}
-          sx={{
-            padding: "2rem",
-            color: "white",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            gap: "1.5rem",
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-            borderRadius: "8px",
-            boxShadow: "0px 4px 15px rgba(0, 0, 0, 0.3)",
-          }}
-        >
-          <Typography variant="h3" gutterBottom>
-            <strong>Join Our Network of Top Photographers</strong>
-          </Typography>
-          <Typography variant="h6" gutterBottom>
-            Showcase Your Skills, Attract Clients, and Grow Your Business
-          </Typography>
-          <Box display="flex" alignItems="center" gap="0.5rem">
-            <CameraAlt fontSize="large" sx={{ color: "#00e5ff" }} />
-            <Typography variant="body1">
-              <strong>Create Your Portfolio</strong>: Highlight your unique
-              style and showcase your best work to connect with clients.
-            </Typography>
-          </Box>
-          <Box display="flex" alignItems="center" gap="0.5rem">
-            <Build fontSize="large" sx={{ color: "#00e5ff" }} />{" "}
-            <Typography variant="body1">
-              <strong>Offer Custom Packages</strong>: Design packages that match
-              different client needs, from events to personal shoots.
-            </Typography>
-          </Box>
-          <Box display="flex" alignItems="center" gap="0.5rem">
-            <AccessTime fontSize="large" sx={{ color: "#00e5ff" }} />
-            <Typography variant="body1">
-              <strong>Flexible Scheduling</strong>: Set your availability to fit
-              client bookings with ease.
-            </Typography>
-          </Box>
-          <Box display="flex" alignItems="center" gap="0.5rem">
-            <Payment fontSize="large" sx={{ color: "#00e5ff" }} />
-            <Typography variant="body1">
-              <strong>Secure Payments</strong>: Receive payments after each
-              session with our secure payment system.
-            </Typography>
-          </Box>
-        </Grid>
+<Grid
+  item
+  xs={12}
+  md={4}
+  sx={{
+    padding: "2rem",
+    color: "white",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "top",
+    gap: "1.5rem",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    borderRadius: "8px",
+    boxShadow: "0px 4px 15px rgba(0, 0, 0, 0.3)",
+  }}
+>
+  <Typography variant="h3" gutterBottom>
+    <strong>Join Our Network of Top Photographers</strong>
+  </Typography>
+  <Typography variant="h6" gutterBottom>
+    Showcase Your Skills, Attract Clients, and Grow Your Business
+  </Typography>
+
+  {/* Create Your Portfolio */}
+  <Box display="flex" alignItems="center" gap="0.5rem">
+    <CameraAlt fontSize="large" sx={{ color: "#00e5ff" }} />
+    <Typography variant="body1">
+      <strong>Create Your Portfolio</strong>: Highlight your unique style and showcase your best work to connect with clients.
+    </Typography>
+  </Box>
+
+  {/* Offer Custom Packages */}
+  <Box display="flex" alignItems="center" gap="0.5rem">
+    <Build fontSize="large" sx={{ color: "#00e5ff" }} />
+    <Typography variant="body1">
+      <strong>Offer Custom Packages</strong>: Design packages that match different client needs, from events to personal shoots.
+    </Typography>
+  </Box>
+
+  {/* Flexible Scheduling */}
+  <Box display="flex" alignItems="center" gap="0.5rem">
+    <AccessTime fontSize="large" sx={{ color: "#00e5ff" }} />
+    <Typography variant="body1">
+      <strong>Flexible Scheduling</strong>: Set your availability to fit client bookings with ease.
+    </Typography>
+  </Box>
+
+  {/* Secure Payments */}
+  <Box display="flex" alignItems="center" gap="0.5rem">
+    <Payment fontSize="large" sx={{ color: "#00e5ff" }} />
+    <Typography variant="body1">
+      <strong>Secure Payments</strong>: Receive payments after each session with our secure payment system.
+    </Typography>
+  </Box>
+
+  {/* Marketing Support */}
+  <Box display="flex" alignItems="center" gap="0.5rem">
+    <Campaign fontSize="large" sx={{ color: "#00e5ff" }} />
+    <Typography variant="body1">
+      <strong>Marketing Support</strong>: Benefit from our promotional tools to reach a wider audience.
+    </Typography>
+  </Box>
+
+  {/* Client Reviews */}
+  <Box display="flex" alignItems="center" gap="0.5rem">
+    <Star fontSize="large" sx={{ color: "#00e5ff" }} />
+    <Typography variant="body1">
+      <strong>Client Reviews</strong>: Build trust with new clients by showcasing positive feedback from past clients.
+    </Typography>
+  </Box>
+
+  {/* Analytics Dashboard */}
+  <Box display="flex" alignItems="center" gap="0.5rem">
+    <Assessment fontSize="large" sx={{ color: "#00e5ff" }} />
+    <Typography variant="body1">
+      <strong>Analytics Dashboard</strong>: Track your performance and improve your services with insightful analytics.
+    </Typography>
+  </Box>
+
+  {/* Quick Support */}
+  <Box display="flex" alignItems="center" gap="0.5rem">
+    <SupportAgent fontSize="large" sx={{ color: "#00e5ff" }} />
+    <Typography variant="body1">
+      <strong>Quick Support</strong>: Get assistance anytime with our dedicated customer support team.
+    </Typography>
+  </Box>
+
+  {/* High-Quality Resources */}
+  <Box display="flex" alignItems="center" gap="0.5rem">
+    <Collections fontSize="large" sx={{ color: "#00e5ff" }} />
+    <Typography variant="body1">
+      <strong>High-Quality Resources</strong>: Access exclusive tools and resources to enhance your photography skills.
+    </Typography>
+  </Box>
+
+  {/* Networking Opportunities */}
+  <Box display="flex" alignItems="center" gap="0.5rem">
+    <PeopleAlt fontSize="large" sx={{ color: "#00e5ff" }} />
+    <Typography variant="body1">
+      <strong>Networking Opportunities</strong>: Connect with other professionals and expand your network.
+    </Typography>
+  </Box>
+</Grid>
+
 
         <Grid item xs={12} md={8}>
           <Box

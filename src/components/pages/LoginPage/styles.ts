@@ -2,7 +2,7 @@ import { SxProps, Theme } from "@mui/material";
 
 export const containerStyle: SxProps<Theme> = {
   display: "flex",
-  height: "98vh",
+  height: "100vh",
   backgroundColor: "white",
   flexDirection: { xs: "column", md: "row" },
 };

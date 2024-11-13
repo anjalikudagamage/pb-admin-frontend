@@ -2,7 +2,7 @@ import { SxProps, Theme } from "@mui/material";
 
 export const containerStyle: SxProps<Theme> = {
   display: "flex",
-  height: "98vh",
+  height: "100vh",
   backgroundColor: "white",
   flexDirection: { xs: "column", md: "row" },
 };
@@ -45,6 +45,7 @@ export const formBoxStyle: SxProps<Theme> = {
   backgroundColor: "#FFCBCB",
   borderRadius: 2,
   margin: 4,
+  marginTop: "100px",
   backdropFilter: "blur(10px)",
 };
 
