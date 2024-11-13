@@ -22,11 +22,11 @@ const AnalyticsDashboard: React.FC = () => {
         <Grid container spacing={2}>
           {/* Left Column */}
           <Grid item xs={12} md={8} container spacing={2} direction="column">
-            {/* Welcome Card */}
+            {/* Analytics Card */}
             <Grid item>
               <Card
                 sx={{
-                  backgroundColor: "#fce4ec",
+                  backgroundColor: "#fce4ec", // Retained light pink background
                   borderRadius: "12px",
                   padding: 2,
                   display: "flex",
@@ -39,23 +39,29 @@ const AnalyticsDashboard: React.FC = () => {
                     width: 60,
                     height: 60,
                     marginRight: 2,
-                    backgroundColor: "#ff80ab",
+                    backgroundColor: "#ff80ab", // Retained pink avatar background
                   }}
-                  src="/path/to/user-image.jpg"
-                  alt="User Image"
+                  src="/path/to/analytics-icon.jpg"
+                  alt="Analytics Icon"
                 />
                 <Box>
                   <Typography variant="h5" sx={{ fontWeight: "bold" }}>
-                    Welcome
+                    Photographer Analytics
                   </Typography>
                   <Typography
                     variant="h4"
-                    sx={{ fontWeight: "bold", color: "#d81b60" }}
+                    sx={{ fontWeight: "bold", color: "#d81b60" }} // Retained deep pink text color
                   >
-                    Pablo Nicolus
+                    Performance Overview
                   </Typography>
                   <Typography variant="body2" sx={{ color: "#6d6d6d" }}>
-                    NY, USA
+                    Engagement: 75%
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: "#6d6d6d" }}>
+                    New Bookings: 12 this month
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: "#6d6d6d" }}>
+                    Gallery Views: 1,450
                   </Typography>
                 </Box>
               </Card>

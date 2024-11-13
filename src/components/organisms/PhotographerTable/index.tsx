@@ -61,7 +61,7 @@ const PhotographerTable: React.FC = () => {
     (state: RootState) => state.photographer.photographerDetails
   );
   const [isEditing, setIsEditing] = useState(false);
-  const [popupOpen, setPopupOpen] = useState(false); // State for popup
+  const [popupOpen, setPopupOpen] = useState(false);
 
   const { control, handleSubmit, setValue } = useForm<PhotographerData>({
     defaultValues: {
@@ -118,7 +118,7 @@ const PhotographerTable: React.FC = () => {
     dispatch(updatePhotographer(payload))
       .unwrap()
       .then(() => {
-        setPopupOpen(true); // Open popup on success
+        setPopupOpen(true); 
         dispatch(fetchPhotographerDetails(user.id));
         setIsEditing(false);
       })

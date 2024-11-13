@@ -49,7 +49,7 @@ const Sidebar: React.FC = () => {
     <Box
       sx={{
         width: 250,
-        backgroundColor: "#f7f7f7",
+        backgroundColor: "#333333", 
         padding: "16px",
         height: "96vh",
         display: "flex",
@@ -62,7 +62,7 @@ const Sidebar: React.FC = () => {
         sx={{
           textAlign: "center",
           marginBottom: "18px",
-          backgroundColor: "#FFA07A",
+          backgroundColor: "#555555", 
           borderRadius: "12px",
           padding: "16px",
         }}
@@ -73,14 +73,14 @@ const Sidebar: React.FC = () => {
       </Box>
 
       {/* Main Section */}
-      <Paper sx={{ borderRadius: "12px", padding: "8px" }}>
+      <Paper sx={{ backgroundColor: "#444444", borderRadius: "12px", padding: "8px" }}>
         <List disablePadding>
           <ListItem disablePadding>
             <ListItemButton onClick={() => handleNavigation("Dashboard")}>
               <ListItemIcon>
-                <DashboardIcon />
+                <DashboardIcon sx={{ color: "white" }} />
               </ListItemIcon>
-              <ListItemText primary="Dashboard" />
+              <ListItemText primary="Dashboard" primaryTypographyProps={{ color: "white" }} />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
@@ -88,17 +88,17 @@ const Sidebar: React.FC = () => {
               onClick={() => handleNavigation("Booking Requests")}
             >
               <ListItemIcon>
-                <CalendarTodayIcon />
+                <CalendarTodayIcon sx={{ color: "white" }} />
               </ListItemIcon>
-              <ListItemText primary="Booking Requests" />
+              <ListItemText primary="Booking Requests" primaryTypographyProps={{ color: "white" }} />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
             <ListItemButton onClick={() => handleNavigation("Analytics")}>
               <ListItemIcon>
-                <InsightsIcon />
+                <InsightsIcon sx={{ color: "white" }} />
               </ListItemIcon>
-              <ListItemText primary="Analytics" />
+              <ListItemText primary="Analytics" primaryTypographyProps={{ color: "white" }} />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
@@ -106,72 +106,72 @@ const Sidebar: React.FC = () => {
               onClick={() => handleNavigation("Profile Settings")}
             >
               <ListItemIcon>
-                <EditIcon />
+                <EditIcon sx={{ color: "white" }} />
               </ListItemIcon>
-              <ListItemText primary="Profile Settings" />
+              <ListItemText primary="Profile Settings" primaryTypographyProps={{ color: "white" }} />
             </ListItemButton>
           </ListItem>
         </List>
       </Paper>
 
       {/* Albums and Gallery Section */}
-      <Paper sx={{ borderRadius: "12px", padding: "8px" }}>
+      <Paper sx={{ backgroundColor: "#444444", borderRadius: "12px", padding: "8px" }}>
         <List disablePadding>
           <ListItem disablePadding>
             <ListItemButton onClick={() => handleNavigation("Manage Albums")}>
               <ListItemIcon>
-                <PhotoLibraryIcon />
+                <PhotoLibraryIcon sx={{ color: "white" }} />
               </ListItemIcon>
-              <ListItemText primary="Manage Albums" />
+              <ListItemText primary="Manage Albums" primaryTypographyProps={{ color: "white" }} />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
             <ListItemButton onClick={() => handleNavigation("Gallery Layouts")}>
               <ListItemIcon>
-                <CollectionsIcon />
+                <CollectionsIcon sx={{ color: "white" }} />
               </ListItemIcon>
-              <ListItemText primary="Gallery Layouts" />
+              <ListItemText primary="Gallery Layouts" primaryTypographyProps={{ color: "white" }} />
             </ListItemButton>
           </ListItem>
         </List>
       </Paper>
 
       {/* Messaging Section */}
-      <Paper sx={{ borderRadius: "12px", padding: "8px" }}>
+      <Paper sx={{ backgroundColor: "#444444", borderRadius: "12px", padding: "8px" }}>
         <List disablePadding>
           <ListItem disablePadding>
             <ListItemButton onClick={() => handleNavigation("Inbox")}>
               <ListItemIcon>
-                <InboxIcon />
+                <InboxIcon sx={{ color: "white" }} />
               </ListItemIcon>
-              <ListItemText primary="Inbox" />
+              <ListItemText primary="Inbox" primaryTypographyProps={{ color: "white" }} />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
             <ListItemButton onClick={() => handleNavigation("Client Contacts")}>
               <ListItemIcon>
-                <AccountCircleIcon />
+                <AccountCircleIcon sx={{ color: "white" }} />
               </ListItemIcon>
-              <ListItemText primary="Client Contacts" />
+              <ListItemText primary="Client Contacts" primaryTypographyProps={{ color: "white" }} />
             </ListItemButton>
           </ListItem>
         </List>
       </Paper>
 
       {/* UI Elements Section */}
-      <Paper sx={{ borderRadius: "12px", padding: "8px" }}>
+      <Paper sx={{ backgroundColor: "#444444", borderRadius: "12px", padding: "8px" }}>
         <List disablePadding>
           <ListItem disablePadding>
             <ListItemButton onClick={() => handleNavigation("UI Elements")}>
               <ListItemIcon>
-                <WidgetsIcon />
+                <WidgetsIcon sx={{ color: "white" }} />
               </ListItemIcon>
-              <ListItemText primary="UI Elements" />
+              <ListItemText primary="UI Elements" primaryTypographyProps={{ color: "white" }} />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
             <ListItemButton>
-              <ListItemText primary="Cards" inset />
+              <ListItemText primary="Cards" inset primaryTypographyProps={{ color: "white" }} />
             </ListItemButton>
           </ListItem>
         </List>

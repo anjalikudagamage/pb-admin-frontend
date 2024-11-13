@@ -8,7 +8,7 @@ const BookingRequests: React.FC = () => {
   return (
     <Box sx={backgroundStyles}>
       <Navbar />
-      <Container>
+      <Container sx={titleStyle}>
         <Typography variant="h5" sx={titleStyle}>
           BOOKING REQUETS
         </Typography>
