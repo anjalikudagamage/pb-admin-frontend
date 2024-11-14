@@ -2,7 +2,7 @@ import { SxProps, Theme } from "@mui/material";
 
 export const containerStyle: SxProps<Theme> = {
   display: "flex",
-  height: "98vh",
+  height: "100vh",
   backgroundColor: "white",
   flexDirection: { xs: "column", md: "row" },
 };
@@ -23,7 +23,7 @@ export const buttonStyle: SxProps<Theme> = {
   color: "#fff",
   maxWidth: "180px",
   padding: "8px 32px",
-  backgroundImage: "linear-gradient(90deg, #FF6B6B, #FF6B6B)", 
+  backgroundImage: "linear-gradient(90deg, #FF6B6B, #FF6B6B)",
   textAlign: "center",
   textTransform: "uppercase",
   transition: "0.5s",
@@ -77,8 +77,8 @@ export const inputFieldStyle: SxProps<Theme> = {
 };
 
 export const signUpButtonStyle: SxProps<Theme> = {
-  width: '100%',
-  backgroundImage: "linear-gradient(90deg, #FF6B6B, #FF6B6B)", 
+  width: "100%",
+  backgroundImage: "linear-gradient(90deg, #FF6B6B, #FF6B6B)",
   color: "white",
   padding: "15px 45px",
   textAlign: "center",
@@ -101,7 +101,7 @@ export const headingStyle: SxProps<Theme> = {
 
 export const bodyStyle: SxProps<Theme> = {
   mb: 12,
-  paddingRight: "50px"
+  paddingRight: "50px",
 };
 
 export const linkStyle: SxProps<Theme> = {

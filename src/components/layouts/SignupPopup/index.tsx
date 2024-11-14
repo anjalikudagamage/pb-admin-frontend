@@ -1,43 +1,44 @@
 import React from "react";
-import { Box, Button, Typography, Modal } from "@mui/material";
-import { modalContainer, popup, buttonContainer, loginButtonStyle } from './styles';
-import { useNavigate } from "react-router-dom"; 
+import { Dialog, DialogActions, DialogContent, DialogTitle, Button, Typography } from "@mui/material";
+import { dialog, title, message, button } from "./styles";
+import { useNavigate } from "react-router-dom";
 
 interface SignupPopupProps {
   open: boolean;
   onClose: () => void;
 }
 
-const SignupPopup: React.FC<SignupPopupProps> = ({
-  open,
-  onClose,
-}) => {
-  const navigate = useNavigate(); 
+const SignupPopup: React.FC<SignupPopupProps> = ({ open, onClose }) => {
+  const navigate = useNavigate();
 
   const handleLoginClick = () => {
-    navigate("/login"); 
+    navigate("/login");
   };
 
   return (
-    <Modal open={open} onClose={onClose}>
-      <Box sx={modalContainer}>
-        <Box sx={popup}>
-          <Typography variant="h6" sx={{ textAlign: 'center' }}>
-            <strong>Thank You for Joining Us!</strong>
-          </Typography>
-          <Typography variant="body1" sx={{ marginY: 2, textAlign: 'center' }}>
-            Your registration was successfully completed. 
-            <br />
-            Click the button below to login.
-          </Typography>
-          <Box sx={{ ...buttonContainer, justifyContent: "center" }}>
-            <Button onClick={handleLoginClick} sx={loginButtonStyle}>
-              Go to Login
-            </Button>
-          </Box>
-        </Box>
-      </Box>
-    </Modal>
+    <Dialog
+      open={open}
+      onClose={onClose}
+      aria-labelledby="signup-dialog-title"
+      aria-describedby="signup-dialog-description"
+      sx={dialog}
+    >
+      <DialogTitle id="signup-dialog-title" sx={title}>
+        Thank You for Joining Us!
+      </DialogTitle>
+      <DialogContent sx={message}>
+        <Typography variant="body1">
+          Your registration was successfully completed.
+          <br />
+          Click the button below to login.
+        </Typography>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleLoginClick} sx={button}>
+          Go to Login
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 };
 

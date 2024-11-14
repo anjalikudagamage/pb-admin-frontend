@@ -1,27 +1,38 @@
-export const modalContainer = {
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  height: "100vh",
+import { SxProps, Theme } from "@mui/system";
+
+export const dialog: SxProps<Theme> = {
+  ".MuiDialog-paper": {
+    width: "400px",
+    padding: "20px",
+    borderRadius: "8px",
+    animation: "fadeIn 0.3s ease-in-out",
+    "@keyframes fadeIn": {
+      "0%": { opacity: 0 },
+      "100%": { opacity: 1 },
+    },
+  },
 };
 
-export const popup = {
-  background: "white",
-  borderRadius: 2,
-  padding: 4,
-  boxShadow: 3,
+export const title: SxProps<Theme> = {
   textAlign: "center",
-  width: "400px",
+  fontWeight: "bold",
+  color: "#4CAF50",
+  fontSize: "1.2rem",
 };
 
-export const buttonContainer = {
-  display: "flex",
-  justifyContent: "space-between",
-  marginTop: 2,
+export const message: SxProps<Theme> = {
+  textAlign: "center",
+  color: "#4CAF50",
+  margin: "10px 0",
 };
 
-export const loginButtonStyle = {
-  backgroundImage: "linear-gradient(90deg, #FF6B6B, #FF6B6B)",
-  justifyContent: "center",
-  color: "white",
+export const button: SxProps<Theme> = {
+  width: "100%",
+  backgroundColor: "#4CAF50",
+  color: "#fff",
+  fontWeight: "bold",
+  padding: "8px",
+  "&:hover": {
+    backgroundColor: "#45a049",
+  },
 };

@@ -3,6 +3,8 @@ export const ROUTES = {
     ADMINLOGIN: "/adminlogin",
     SIGNUP: "/signup",
     PASSWORD: "/password",
-    ADMIN: "/admin",
+    PROFILESETTING: "/details",
+    REQUETS: "/requets",
+    DASHBOARD: "/dashbord"
 };
  

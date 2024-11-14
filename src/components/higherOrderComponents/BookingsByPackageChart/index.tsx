@@ -1,15 +1,24 @@
-import React from 'react';
-import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import React from "react";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
 
 // Sample data
 const data = [
-  { name: 'New Bookings', value: 38 },
-  { name: 'Returning Bookings', value: 62 },
+  { name: "Weddings", value: 35 },
+  { name: "Portraits", value: 25 },
+  { name: "Events", value: 20 },
+  { name: "Commercial", value: 20 },
 ];
 
-const COLORS = ['#8A2BE2', '#FF1493'];
+const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
-const NewVsReturningBookings: React.FC = () => {
+const BookingsByPackageChart: React.FC = () => {
   return (
     <ResponsiveContainer width="100%" height={300}>
       <PieChart>
@@ -33,4 +42,4 @@ const NewVsReturningBookings: React.FC = () => {
   );
 };
 
-export default NewVsReturningBookings;
+export default BookingsByPackageChart;

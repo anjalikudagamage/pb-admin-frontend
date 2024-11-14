@@ -15,7 +15,11 @@ import {
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
-import { fetchAllBookings, updateBooking, deleteBooking } from "../../../redux/actions/bookingActions";
+import {
+  fetchAllBookings,
+  updateBooking,
+  deleteBooking,
+} from "../../../redux/actions/bookingActions";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CheckIcon from "@mui/icons-material/Check";
@@ -24,9 +28,8 @@ import { grey, blue, green } from "@mui/material/colors";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import PhoneIcon from "@mui/icons-material/Phone";
 import DateRangeIcon from "@mui/icons-material/DateRange";
-import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
+import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 
-// Define the type for the booking object
 interface Booking {
   id: number;
   fullName: string;
@@ -38,9 +41,11 @@ interface Booking {
   phoneNumber: string;
 }
 
-const UserCards: React.FC = () => {
+const BookingRequetsCard: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { bookings, isLoading, error } = useSelector((state: RootState) => state.booking);
+  const { bookings, isLoading, error } = useSelector(
+    (state: RootState) => state.booking
+  );
 
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editedBooking, setEditedBooking] = useState<Booking>({
@@ -55,7 +60,9 @@ const UserCards: React.FC = () => {
   });
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">("success");
+  const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">(
+    "success"
+  );
 
   useEffect(() => {
     dispatch(fetchAllBookings());
@@ -67,7 +74,7 @@ const UserCards: React.FC = () => {
   };
 
   const handleCancelEdit = () => {
-    setEditingId(null); 
+    setEditingId(null);
     setEditedBooking({
       id: 0,
       fullName: "",
@@ -87,7 +94,7 @@ const UserCards: React.FC = () => {
 
   const handleSaveEdit = () => {
     dispatch(updateBooking(editedBooking));
-    setEditingId(null); 
+    setEditingId(null);
     setSnackbarMessage("Booking updated successfully!");
     setSnackbarSeverity("success");
     setOpenSnackbar(true);
@@ -105,9 +112,14 @@ const UserCards: React.FC = () => {
   };
 
   return (
-    <Box display="flex" flexDirection="column" gap={3} padding={3} >
+    <Box display="flex" flexDirection="column" gap={3} padding={3}>
       {isLoading ? (
-        <Box display="flex" justifyContent="center" p={2} sx={{ backgroundColor: grey[200] }}>
+        <Box
+          display="flex"
+          justifyContent="center"
+          p={2}
+          sx={{ backgroundColor: grey[200] }}
+        >
           <CircularProgress />
         </Box>
       ) : error ? (
@@ -116,19 +128,22 @@ const UserCards: React.FC = () => {
         </Typography>
       ) : (
         bookings.map((booking: Booking) => (
-          <Card key={booking.id} sx={{
-            display: "flex",
-            flexDirection: "column",
-            padding: 3,
-            borderRadius: 3,
-            backgroundColor: grey[50],
-            boxShadow: 3,
-            transition: "transform 0.3s",
-            "&:hover": {
-              transform: "scale(1.05)",
-              boxShadow: 6,
-            },
-          }}>
+          <Card
+            key={booking.id}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              padding: 3,
+              borderRadius: 3,
+              backgroundColor: grey[50],
+              boxShadow: 3,
+              transition: "transform 0.3s",
+              "&:hover": {
+                transform: "scale(1.05)",
+                boxShadow: 6,
+              },
+            }}
+          >
             {editingId === booking.id ? (
               <>
                 <CardContent>
@@ -219,7 +234,11 @@ const UserCards: React.FC = () => {
               <>
                 <CardContent>
                   <Box display="flex" flexDirection="column" gap={2}>
-                    <Typography variant="h6" fontWeight="bold" color={blue[700]}>
+                    <Typography
+                      variant="h6"
+                      fontWeight="bold"
+                      color={blue[700]}
+                    >
                       {booking.fullName}
                     </Typography>
                     <Box display="flex" alignItems="center" gap={1}>
@@ -228,14 +247,25 @@ const UserCards: React.FC = () => {
                     </Box>
                     <Box display="flex" alignItems="center" gap={1}>
                       <PhoneIcon color="secondary" />
-                      <Typography variant="body2">{booking.phoneNumber}</Typography>
+                      <Typography variant="body2">
+                        {booking.phoneNumber}
+                      </Typography>
                     </Box>
                     <Box display="flex" alignItems="center" gap={1}>
                       <DateRangeIcon color="action" />
-                      <Typography variant="body2">{booking.eventDate} at {booking.eventTime}</Typography>
+                      <Typography variant="body2">
+                        {booking.eventDate} at {booking.eventTime}
+                      </Typography>
                     </Box>
-                    <Typography variant="body2" fontStyle="italic" color={green[600]} fontSize={20} display={"flex"}>
-                      <AddAPhotoIcon sx={{ marginRight: 1 }} />  {booking.packageName}
+                    <Typography
+                      variant="body2"
+                      fontStyle="italic"
+                      color={green[600]}
+                      fontSize={20}
+                      display={"flex"}
+                    >
+                      <AddAPhotoIcon sx={{ marginRight: 1 }} />{" "}
+                      {booking.packageName}
                     </Typography>
                   </Box>
                 </CardContent>
@@ -262,14 +292,18 @@ const UserCards: React.FC = () => {
           </Card>
         ))
       )}
-      
+
       <Snackbar
         open={openSnackbar}
         autoHideDuration={6000}
         onClose={handleCloseSnackbar}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
-        <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity} sx={{ width: "100%" }}>
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity={snackbarSeverity}
+          sx={{ width: "100%" }}
+        >
           {snackbarMessage}
         </Alert>
       </Snackbar>
@@ -277,4 +311,4 @@ const UserCards: React.FC = () => {
   );
 };
 
-export default UserCards;
+export default BookingRequetsCard;

@@ -24,7 +24,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import BusinessIcon from "@mui/icons-material/Business";
 import ContactMailIcon from "@mui/icons-material/ContactMail";
 import PackageIcon from "@mui/icons-material/Category";
-import SavePopup from "../../organisms/SavePopup";  
+import SavePopup from "../../layouts/SavePopup";
 import {
   container,
   card,
@@ -61,7 +61,7 @@ const PhotographerTable: React.FC = () => {
     (state: RootState) => state.photographer.photographerDetails
   );
   const [isEditing, setIsEditing] = useState(false);
-  const [popupOpen, setPopupOpen] = useState(false);  // State for popup
+  const [popupOpen, setPopupOpen] = useState(false);
 
   const { control, handleSubmit, setValue } = useForm<PhotographerData>({
     defaultValues: {
@@ -82,7 +82,10 @@ const PhotographerTable: React.FC = () => {
   useEffect(() => {
     if (photographerDetails) {
       setValue("businessName", photographerDetails.businessName || "");
-      setValue("businessDescription", photographerDetails.businessDescription || "");
+      setValue(
+        "businessDescription",
+        photographerDetails.businessDescription || ""
+      );
       setValue("emailAddress", user?.email || "");
       setValue("password", user?.password || "********");
       setValue("packages", photographerDetails.packages || []);
@@ -115,7 +118,7 @@ const PhotographerTable: React.FC = () => {
     dispatch(updatePhotographer(payload))
       .unwrap()
       .then(() => {
-        setPopupOpen(true);  // Open popup on success
+        setPopupOpen(true); 
         dispatch(fetchPhotographerDetails(user.id));
         setIsEditing(false);
       })
