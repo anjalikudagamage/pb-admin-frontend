@@ -14,7 +14,7 @@ export const fetchAllBookings = createAsyncThunk<
   try {
     return await fetchAllBookingsService();
   } catch (error) {
-    return rejectWithValue(error as string);
+    return rejectWithValue("Failed to fetch bookings");
   }
 });
 
@@ -26,7 +26,7 @@ export const deleteBooking = createAsyncThunk<
   try {
     await deleteBookingService(id);
     return id;
-  } catch (error) {
+  } catch {
     return rejectWithValue("Failed to delete booking");
   }
 });
@@ -38,7 +38,7 @@ export const updateBooking = createAsyncThunk<
 >("booking/update", async (booking, { rejectWithValue }) => {
   try {
     return await updateBookingService(booking);
-  } catch (error) {
+  } catch {
     return rejectWithValue("Failed to update booking");
   }
 });
