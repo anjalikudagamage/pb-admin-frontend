@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { photographerClient } from "../../api/axiosClient";
+import { apiClient } from "../../api/axiosClient";
 import { AxiosError } from "axios";
 
 interface SignupPayload {
@@ -15,7 +15,6 @@ interface LoginPayload {
   password: string;
 }
 
-// Define the UpdatePayload type
 type UpdatePayload = {
   id: number;
   businessName: string;
@@ -30,7 +29,7 @@ export const photographerSignup = createAsyncThunk(
   "photographer/signup",
   async (payload: SignupPayload, { rejectWithValue }) => {
     try {
-      const response = await photographerClient.post("/signup", payload);
+      const response = await apiClient.post("/photographer/signup", payload);
       return response.data;
     } catch (error: AxiosError | unknown) {
       let errorMsg = "Signup failed";
@@ -49,7 +48,7 @@ export const photographerLogin = createAsyncThunk(
   "photographer/login",
   async (payload: LoginPayload, { rejectWithValue }) => {
     try {
-      const response = await photographerClient.post("/login", payload);
+      const response = await apiClient.post("/photographer/login", payload);
       return response.data;
     } catch (error) {
       let errorMsg = "Login failed";
@@ -66,8 +65,12 @@ export const fetchPhotographerDetails = createAsyncThunk(
   "photographer/fetchDetails",
   async (photographerId: number, { rejectWithValue }) => {
     try {
-      const response = await photographerClient.get(`/${photographerId}/details`);
-      const parsedPackageDetails = Object.entries(response.data.packageDetails).map(([name, detailsString]) => {
+      const response = await apiClient.get(
+        `/photographer/${photographerId}/details`
+      );
+      const parsedPackageDetails = Object.entries(
+        response.data.packageDetails
+      ).map(([name, detailsString]) => {
         const details = (detailsString as string).match(/\d+/g) || [];
         const [photos, locations, price] = details.map(Number);
         return { name, details: { photos, locations, price } };
@@ -84,8 +87,8 @@ export const updatePhotographer = createAsyncThunk(
   "photographer/update",
   async (payload: UpdatePayload, { rejectWithValue }) => {
     try {
-      const response = await photographerClient.put(
-        `/${payload.id}/update`,
+      const response = await apiClient.put(
+        `/photographer/${payload.id}/update`,
         payload
       );
       return response.data;

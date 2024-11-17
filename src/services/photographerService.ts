@@ -1,5 +1,5 @@
 import { AxiosError } from "axios";
-import { photographerClient } from "../api/axiosClient";
+import { apiClient } from "../api/axiosClient";
 
 interface SignupData {
   businessName: string;
@@ -18,7 +18,7 @@ interface LoginData {
 
 export const photographerSignupService = async (signupData: SignupData) => {
   try {
-    const response = await photographerClient.post("/signup", signupData);
+    const response = await apiClient.post("/signup", signupData);
     return response.data;
   } catch (error) {
     if (error instanceof AxiosError) {
@@ -30,7 +30,7 @@ export const photographerSignupService = async (signupData: SignupData) => {
 
 export const photographerLoginService = async (loginData: LoginData) => {
   try {
-    const response = await photographerClient.post("/login", loginData);
+    const response = await apiClient.post("/login", loginData);
     return response.data;
   } catch (error) {
     if (error instanceof AxiosError) {
@@ -42,7 +42,7 @@ export const photographerLoginService = async (loginData: LoginData) => {
 
 export const fetchPhotographerDetailsService = async (id: number) => {
   try {
-    const response = await photographerClient.get(`/${id}/details`);
+    const response = await apiClient.get(`/${id}/details`);
     return response.data;
   } catch (error) {
     if (error instanceof AxiosError) {

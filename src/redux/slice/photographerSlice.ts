@@ -3,7 +3,7 @@ import {
   photographerSignup,
   photographerLogin,
   fetchPhotographerDetails,
-  updatePhotographer
+  updatePhotographer,
 } from "../actions/photographerActions";
 
 interface IPhotographerState {
@@ -19,7 +19,6 @@ interface IPhotographerUser {
   email: string;
   password?: string;
 }
-
 
 interface PackageDetails {
   name: string;
@@ -81,7 +80,7 @@ const photographerSlice = createSlice({
       .addCase(photographerLogin.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isPhotographerAuthenticated = true;
-        state.user = action.payload; // Stores the logged-in photographer's details
+        state.user = action.payload;
         state.error = null;
       })
       .addCase(photographerLogin.rejected, (state, action) => {
@@ -106,15 +105,15 @@ const photographerSlice = createSlice({
         state.photographerDetails = action.payload;
         state.error = null;
         state.isLoading = false;
-    })
-    .addCase(updatePhotographer.pending, (state) => {
+      })
+      .addCase(updatePhotographer.pending, (state) => {
         state.isLoading = true;
         state.error = null;
-    })
-    .addCase(updatePhotographer.rejected, (state, action) => {
+      })
+      .addCase(updatePhotographer.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
-    });
+      });
   },
 });
 
