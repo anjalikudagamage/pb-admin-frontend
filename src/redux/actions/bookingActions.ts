@@ -13,7 +13,7 @@ export const fetchAllBookings = createAsyncThunk<
 >("booking/fetchAll", async (_, { rejectWithValue }) => {
   try {
     return await fetchAllBookingsService();
-  } catch (error) {
+  } catch {
     return rejectWithValue("Failed to fetch bookings");
   }
 });
