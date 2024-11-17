@@ -1,4 +1,3 @@
-// store.ts
 import { configureStore } from "@reduxjs/toolkit";
 import photographerReducer from "./slice/photographerSlice";
 import bookingReducer from "./slice/bookingSlice";

@@ -1,6 +1,5 @@
-// redux/actions/bookingActions.ts
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { bookingClient } from "../../api/axiosClient";
+import { apiClient } from "../../api/axiosClient";
 import { AxiosError } from "axios";
 
 interface Booking {
@@ -19,7 +18,7 @@ export const fetchAllBookings = createAsyncThunk(
   "booking/fetchAll",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await bookingClient.get("/alldata"); // GET request to fetch all bookings
+      const response = await apiClient.get("/booking/alldata");
       return response.data;
     } catch (error: AxiosError | unknown) {
       let errorMsg = "Failed to fetch bookings";
@@ -37,8 +36,8 @@ export const deleteBooking = createAsyncThunk(
   "booking/delete",
   async (id: number, { rejectWithValue }) => {
     try {
-      await bookingClient.delete(`/${id}`); // Delete the booking using the id
-      return id; // Returning the ID for removal from the state
+      await apiClient.delete(`/booking/${id}`);
+      return id;
     } catch {
       return rejectWithValue("Failed to delete booking");
     }
@@ -49,7 +48,7 @@ export const updateBooking = createAsyncThunk(
   "booking/update",
   async (booking: Booking, { rejectWithValue }) => {
     try {
-      const response = await bookingClient.put(`/${booking.id}`, booking); // Update the booking
+      const response = await apiClient.put(`/booking/${booking.id}`, booking);
       return response.data;
     } catch {
       return rejectWithValue("Failed to update booking");
