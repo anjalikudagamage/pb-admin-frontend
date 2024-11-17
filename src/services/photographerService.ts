@@ -1,53 +1,63 @@
 import { AxiosError } from "axios";
 import { apiClient } from "../api/axiosClient";
+import {
+  SignupPayload,
+  LoginPayload,
+  PhotographerDetails,
+  UpdatePayload,
+} from "../constants/types/photographerTypes";
 
-interface SignupData {
-  businessName: string;
-  businessDescription: string;
-  email: string;
-  password: string;
-  packageDetails: {
-    [key: string]: string;
-  };
-}
-
-interface LoginData {
-  email: string;
-  password: string;
-}
-
-export const photographerSignupService = async (signupData: SignupData) => {
+export const photographerSignupService = async (signupData: SignupPayload) => {
   try {
-    const response = await apiClient.post("/signup", signupData);
-    return response.data;
+    const { data } = await apiClient.post("/photographer/signup", signupData);
+    return data;
   } catch (error) {
     if (error instanceof AxiosError) {
-      return Promise.reject(error.response?.data?.message || "Signup failed");
+      throw error.response?.data?.message || "Signup failed";
     }
-    return Promise.reject("An unknown error occurred during signup");
+    throw "An unknown error occurred during signup";
   }
 };
 
-export const photographerLoginService = async (loginData: LoginData) => {
+export const photographerLoginService = async (loginData: LoginPayload) => {
   try {
-    const response = await apiClient.post("/login", loginData);
-    return response.data;
+    const { data } = await apiClient.post("/photographer/login", loginData);
+    return data;
   } catch (error) {
     if (error instanceof AxiosError) {
-      return Promise.reject(error.response?.data?.message || "Login failedd");
+      throw error.response?.data?.message || "Login failed";
     }
-    return Promise.reject("An unknown error occurred during login");
+    throw "An unknown error occurred during login";
   }
 };
 
-export const fetchPhotographerDetailsService = async (id: number) => {
+export const fetchPhotographerDetailsService = async (
+  id: number
+): Promise<PhotographerDetails> => {
   try {
-    const response = await apiClient.get(`/${id}/details`);
-    return response.data;
+    const { data } = await apiClient.get(`/photographer/${id}/details`);
+    return data;
   } catch (error) {
     if (error instanceof AxiosError) {
-      return Promise.reject(error.response?.data?.message || "Failed to fetch details");
+      throw error.response?.data?.message || "Failed to fetch details";
     }
-    return Promise.reject("An unknown error occurred while fetching details");
+    throw "An unknown error occurred while fetching details";
+  }
+};
+
+export const updatePhotographerService = async (
+  updateData: UpdatePayload
+): Promise<PhotographerDetails> => {
+  try {
+    const { data } = await apiClient.put(
+      `/photographer/${updateData.id}/update`,
+      updateData
+    );
+    return data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      throw error.response?.data?.message || "Failed to update photographer";
+    }
+    throw "An unknown error occurred while updating photographer details";
   }
 };

@@ -1,44 +1,24 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { apiClient } from "../../api/axiosClient";
-import { AxiosError } from "axios";
-
-interface SignupPayload {
-  businessName: string;
-  businessDescription: string;
-  email: string;
-  password: string;
-  packageDetails: Record<string, string>;
-}
-
-interface LoginPayload {
-  email: string;
-  password: string;
-}
-
-type UpdatePayload = {
-  id: number;
-  businessName: string;
-  businessDescription: string;
-  email: string;
-  password: string;
-  packageDetails: Record<string, string>;
-};
+import {
+  photographerSignupService,
+  photographerLoginService,
+  fetchPhotographerDetailsService,
+  updatePhotographerService,
+} from "../../services/photographerService";
+import {
+  SignupPayload,
+  LoginPayload,
+  UpdatePayload,
+} from "../../constants/types/photographerTypes";
 
 // Photographer signup async action
 export const photographerSignup = createAsyncThunk(
   "photographer/signup",
   async (payload: SignupPayload, { rejectWithValue }) => {
     try {
-      const response = await apiClient.post("/photographer/signup", payload);
-      return response.data;
-    } catch (error: AxiosError | unknown) {
-      let errorMsg = "Signup failed";
-      if (error instanceof AxiosError && error.response?.data?.message) {
-        errorMsg = error.response.data.message;
-      } else if (error instanceof Error) {
-        errorMsg = error.message;
-      }
-      return rejectWithValue(errorMsg);
+      return await photographerSignupService(payload);
+    } catch (error) {
+      return rejectWithValue(error as string);
     }
   }
 );
@@ -48,14 +28,9 @@ export const photographerLogin = createAsyncThunk(
   "photographer/login",
   async (payload: LoginPayload, { rejectWithValue }) => {
     try {
-      const response = await apiClient.post("/photographer/login", payload);
-      return response.data;
+      return await photographerLoginService(payload);
     } catch (error) {
-      let errorMsg = "Login failed";
-      if (error instanceof AxiosError && error.response?.data?.message) {
-        errorMsg = error.response.data.message;
-      }
-      return rejectWithValue(errorMsg);
+      return rejectWithValue(error as string);
     }
   }
 );
@@ -65,19 +40,9 @@ export const fetchPhotographerDetails = createAsyncThunk(
   "photographer/fetchDetails",
   async (photographerId: number, { rejectWithValue }) => {
     try {
-      const response = await apiClient.get(
-        `/photographer/${photographerId}/details`
-      );
-      const parsedPackageDetails = Object.entries(
-        response.data.packageDetails
-      ).map(([name, detailsString]) => {
-        const details = (detailsString as string).match(/\d+/g) || [];
-        const [photos, locations, price] = details.map(Number);
-        return { name, details: { photos, locations, price } };
-      });
-      return { ...response.data, packages: parsedPackageDetails };
-    } catch {
-      return rejectWithValue("Failed to fetch photographer details");
+      return await fetchPhotographerDetailsService(photographerId);
+    } catch (error) {
+      return rejectWithValue(error as string);
     }
   }
 );
@@ -87,13 +52,9 @@ export const updatePhotographer = createAsyncThunk(
   "photographer/update",
   async (payload: UpdatePayload, { rejectWithValue }) => {
     try {
-      const response = await apiClient.put(
-        `/photographer/${payload.id}/update`,
-        payload
-      );
-      return response.data;
-    } catch {
-      return rejectWithValue("Failed to update photographer details");
+      return await updatePhotographerService(payload);
+    } catch (error) {
+      return rejectWithValue(error as string);
     }
   }
 );
