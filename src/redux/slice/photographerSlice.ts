@@ -6,28 +6,19 @@ import {
   updatePhotographer,
 } from "../actions/photographerActions";
 
-interface IPhotographerState {
-  isLoading: boolean;
-  isPhotographerAuthenticated: boolean;
-  error: string | null;
-  user: IPhotographerUser | null;
-  photographerDetails: IPhotographerDetails | null;
+interface PackageDetails {
+  name: string;
+  details: {
+    photos: number;
+    locations: number;
+    price: number;
+  };
 }
 
 interface IPhotographerUser {
   id: number;
   email: string;
   password?: string;
-}
-
-interface PackageDetails {
-  name: string;
-  details: {
-    photos: number;
-    hours: number;
-    locations: number;
-    price: number;
-  };
 }
 
 interface IPhotographerDetails {
@@ -65,12 +56,10 @@ const photographerSlice = createSlice({
       .addCase(photographerSignup.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isPhotographerAuthenticated = true;
-        state.user = action.payload.photographerDetails;
-        state.error = null;
+        state.user = action.payload.user;
       })
       .addCase(photographerSignup.rejected, (state, action) => {
         state.isLoading = false;
-        state.isPhotographerAuthenticated = false;
         state.error = action.payload as string;
       })
       .addCase(photographerLogin.pending, (state) => {
@@ -81,34 +70,30 @@ const photographerSlice = createSlice({
         state.isLoading = false;
         state.isPhotographerAuthenticated = true;
         state.user = action.payload;
-        state.error = null;
       })
       .addCase(photographerLogin.rejected, (state, action) => {
         state.isLoading = false;
-        state.isPhotographerAuthenticated = false;
         state.error = action.payload as string;
-      })
-      .addCase(fetchPhotographerDetails.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.photographerDetails = action.payload;
-        state.error = null;
       })
       .addCase(fetchPhotographerDetails.pending, (state) => {
         state.isLoading = true;
         state.error = null;
       })
+      .addCase(fetchPhotographerDetails.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.photographerDetails = action.payload ? action.payload : null;
+      })
       .addCase(fetchPhotographerDetails.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
       })
-      .addCase(updatePhotographer.fulfilled, (state, action) => {
-        state.photographerDetails = action.payload;
-        state.error = null;
-        state.isLoading = false;
-      })
       .addCase(updatePhotographer.pending, (state) => {
         state.isLoading = true;
         state.error = null;
+      })
+      .addCase(updatePhotographer.fulfilled, (state, action) => {
+        state.photographerDetails = action.payload;
+        state.isLoading = false;
       })
       .addCase(updatePhotographer.rejected, (state, action) => {
         state.isLoading = false;
