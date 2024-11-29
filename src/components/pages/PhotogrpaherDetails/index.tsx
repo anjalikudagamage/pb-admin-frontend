@@ -1,3 +1,4 @@
+import Footer from "../../atoms/Footer";
 import Navbar from "../../organisms/Navbar";
 import PhotographerTable from "../../organisms/PhotographerTable";
 import backgroundStyles from "./styles";
@@ -10,6 +11,7 @@ function PhotographerDetails() {
       <Box sx={backgroundStyles}>
         <PhotographerTable />
       </Box>
+      <Footer/>
     </>
   );
 }

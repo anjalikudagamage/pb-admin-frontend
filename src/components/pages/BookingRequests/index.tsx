@@ -3,6 +3,7 @@ import { Box, Container, Typography } from "@mui/material";
 import Navbar from "../../organisms/Navbar";
 import UserTable from "../../higherOrderComponents/BookingRequetsCard";
 import { titleStyle, backgroundStyles } from "./styles";
+import Footer from "../../atoms/Footer";
 
 const BookingRequests: React.FC = () => {
   return (
@@ -14,6 +15,7 @@ const BookingRequests: React.FC = () => {
         </Typography>
         <UserTable />
       </Container>
+      <Footer/>
     </Box>
   );
 };

@@ -235,7 +235,7 @@ const BookingRequetsCard: React.FC = () => {
                 <CardContent>
                   <Box display="flex" flexDirection="column" gap={2}>
                     <Typography
-                      variant="h6"
+                      variant="h5"
                       fontWeight="bold"
                       color={blue[700]}
                     >
@@ -243,25 +243,21 @@ const BookingRequetsCard: React.FC = () => {
                     </Typography>
                     <Box display="flex" alignItems="center" gap={1}>
                       <LocationOnIcon color="primary" />
-                      <Typography variant="body2">{booking.address}</Typography>
+                      <Typography variant="h6">{booking.address}</Typography>
                     </Box>
                     <Box display="flex" alignItems="center" gap={1}>
                       <PhoneIcon color="secondary" />
-                      <Typography variant="body2">
-                        {booking.phoneNumber}
-                      </Typography>
+                      <Typography variant="h6">{booking.phoneNumber}</Typography>
                     </Box>
                     <Box display="flex" alignItems="center" gap={1}>
                       <DateRangeIcon color="action" />
-                      <Typography variant="body2">
+                      <Typography variant="h6">
                         {booking.eventDate} at {booking.eventTime}
                       </Typography>
                     </Box>
                     <Typography
-                      variant="body2"
-                      fontStyle="italic"
+                      variant="h6"
                       color={green[600]}
-                      fontSize={20}
                       display={"flex"}
                     >
                       <AddAPhotoIcon sx={{ marginRight: 1 }} />{" "}
