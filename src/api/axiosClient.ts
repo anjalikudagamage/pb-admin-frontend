@@ -5,9 +5,8 @@ import axios, {
   InternalAxiosRequestConfig,
 } from "axios";
 
-// Access the environment variable from Vite
 const apiGatewayBaseURL: string =
-  import.meta.env.VITE_APIGATEWAY_SERVICE_URL || "http://localhost:8060"; // Fallback to default URL if not defined
+  import.meta.env.VITE_APIGATEWAY_SERVICE_URL || "http://localhost:8060";
 
 const apiClient: AxiosInstance = axios.create({
   baseURL: apiGatewayBaseURL,
